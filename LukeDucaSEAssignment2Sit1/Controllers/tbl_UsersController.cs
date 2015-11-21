@@ -55,6 +55,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
                 db.tbl_Users.Add(tbl_Users);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+
             }
 
             ViewBag.Role_Id = new SelectList(db.tbl_Roles, "Role_Id", "Type", tbl_Users.Role_Id);
