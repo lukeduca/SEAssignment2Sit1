@@ -12,21 +12,16 @@ namespace LukeDucaSEAssignment2Sit1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Users
+    public partial class tbl_ArticleState
     {
-        public tbl_Users()
+        public tbl_ArticleState()
         {
             this.tbl_Article = new HashSet<tbl_Article>();
         }
     
-        public int User_Id { get; set; }
-        public string First_Name { get; set; }
-        public string Last_Name { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public int Role_Id { get; set; }
+        public int Article_State_Id { get; set; }
+        public string Type { get; set; }
     
         public virtual ICollection<tbl_Article> tbl_Article { get; set; }
-        public virtual tbl_Roles tbl_Roles { get; set; }
     }
 }

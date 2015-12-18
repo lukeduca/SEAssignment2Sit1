@@ -124,6 +124,25 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             return RedirectToAction("Index");
         }
 
+
+       //Submitting a new article
+        public ActionResult SubmitArticle()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitArticle(tbl_Article a)
+        {
+            a.User_Id = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name).User_Id;
+
+            MyService.ServiceController myServiceController = new MyService.ServiceController();
+            myServiceController.SubmitNewArticle(a.Article_Name, a.Article_Description,
+                a.Article_Commets_Content, a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id,
+                a.Article_State_Id);
+            return View();
+        }
+       
         protected override void Dispose(bool disposing)
         {
             if (disposing)

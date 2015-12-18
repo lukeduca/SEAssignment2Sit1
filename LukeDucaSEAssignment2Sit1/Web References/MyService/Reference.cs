@@ -35,6 +35,8 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         private System.Threading.SendOrPostCallback RegisterOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SubmitNewArticleOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -83,6 +85,9 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         public event RegisterCompletedEventHandler RegisterCompleted;
         
         /// <remarks/>
+        public event SubmitNewArticleCompletedEventHandler SubmitNewArticleCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/DoWork", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DoWork() {
             this.Invoke("DoWork", new object[0]);
@@ -110,8 +115,7 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/Login", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string Login([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string uname, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string pass) {
+        public string Login(string uname, string pass) {
             object[] results = this.Invoke("Login", new object[] {
                         uname,
                         pass});
@@ -142,25 +146,23 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/Register", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
-        public string Register([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string firstName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string lastName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string username, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string password, int roleId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool roleIdSpecified) {
+        public string Register(string firstName, string lastName, string username, string password, int roleId) {
             object[] results = this.Invoke("Register", new object[] {
                         firstName,
                         lastName,
                         username,
                         password,
-                        roleId,
-                        roleIdSpecified});
+                        roleId});
             return ((string)(results[0]));
         }
         
         /// <remarks/>
-        public void RegisterAsync(string firstName, string lastName, string username, string password, int roleId, bool roleIdSpecified) {
-            this.RegisterAsync(firstName, lastName, username, password, roleId, roleIdSpecified, null);
+        public void RegisterAsync(string firstName, string lastName, string username, string password, int roleId) {
+            this.RegisterAsync(firstName, lastName, username, password, roleId, null);
         }
         
         /// <remarks/>
-        public void RegisterAsync(string firstName, string lastName, string username, string password, int roleId, bool roleIdSpecified, object userState) {
+        public void RegisterAsync(string firstName, string lastName, string username, string password, int roleId, object userState) {
             if ((this.RegisterOperationCompleted == null)) {
                 this.RegisterOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRegisterOperationCompleted);
             }
@@ -169,14 +171,56 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
                         lastName,
                         username,
                         password,
-                        roleId,
-                        roleIdSpecified}, this.RegisterOperationCompleted, userState);
+                        roleId}, this.RegisterOperationCompleted, userState);
         }
         
         private void OnRegisterOperationCompleted(object arg) {
             if ((this.RegisterCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.RegisterCompleted(this, new RegisterCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/SubmitNewArticle", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string SubmitNewArticle(string articleName, string articleDescription, string articleComments, System.DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId) {
+            object[] results = this.Invoke("SubmitNewArticle", new object[] {
+                        articleName,
+                        articleDescription,
+                        articleComments,
+                        dateOfPublish,
+                        userId,
+                        mediaManagerId,
+                        articleStatusId,
+                        articleStateId});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SubmitNewArticleAsync(string articleName, string articleDescription, string articleComments, System.DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId) {
+            this.SubmitNewArticleAsync(articleName, articleDescription, articleComments, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, null);
+        }
+        
+        /// <remarks/>
+        public void SubmitNewArticleAsync(string articleName, string articleDescription, string articleComments, System.DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, object userState) {
+            if ((this.SubmitNewArticleOperationCompleted == null)) {
+                this.SubmitNewArticleOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSubmitNewArticleOperationCompleted);
+            }
+            this.InvokeAsync("SubmitNewArticle", new object[] {
+                        articleName,
+                        articleDescription,
+                        articleComments,
+                        dateOfPublish,
+                        userId,
+                        mediaManagerId,
+                        articleStatusId,
+                        articleStateId}, this.SubmitNewArticleOperationCompleted, userState);
+        }
+        
+        private void OnSubmitNewArticleOperationCompleted(object arg) {
+            if ((this.SubmitNewArticleCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SubmitNewArticleCompleted(this, new SubmitNewArticleCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -242,6 +286,32 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         private object[] results;
         
         internal RegisterCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void SubmitNewArticleCompletedEventHandler(object sender, SubmitNewArticleCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SubmitNewArticleCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SubmitNewArticleCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

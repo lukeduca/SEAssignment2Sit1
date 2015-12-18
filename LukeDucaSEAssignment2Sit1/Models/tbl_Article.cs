@@ -22,8 +22,10 @@ namespace LukeDucaSEAssignment2Sit1.Models
         public int User_Id { get; set; }
         public int MedaManager_Id { get; set; }
         public int ArticleStatus_Id { get; set; }
+        public int Article_State_Id { get; set; }
     
         public virtual tbl_ArticleStatus tbl_ArticleStatus { get; set; }
         public virtual tbl_Users tbl_Users { get; set; }
+        public virtual tbl_ArticleState tbl_ArticleState { get; set; }
     }
 }

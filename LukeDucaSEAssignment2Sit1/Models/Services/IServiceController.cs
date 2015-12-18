@@ -16,10 +16,17 @@ namespace LukeDucaSEAssignment2Sit1
         [OperationContract]
         void DoWork();
 
+        [XmlSerializerFormat]
         [OperationContract]
         string Login(string uname, string pass);
 
+        [XmlSerializerFormat]
         [OperationContract]
         string Register(string firstName, string lastName, string username, string password, int roleId);
+
+        [XmlSerializerFormat]
+        [OperationContract]
+        void SubmitNewArticle(string articleName, string articleDescription, string articleComments,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId);
     }
 }

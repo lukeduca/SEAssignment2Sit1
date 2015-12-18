@@ -6,7 +6,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Web;
 using System.Web.Security;
+using System.Net;
+using System.Data.Entity;
+using LukeDucaSEAssignment2Sit1.Models.DesignPatterns;
+using LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State;
 
 namespace LukeDucaSEAssignment2Sit1
 {
@@ -56,6 +61,14 @@ namespace LukeDucaSEAssignment2Sit1
             {
                 return null;
             }
+        }
+
+
+        public void SubmitNewArticle(string articleName, string articleDescription, string articleComments, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId)
+        {
+            Type t = Type.GetType("LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
+            ArticleFactory factory = new TextArticle(articleName, articleDescription, articleComments, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, (IArticleState)Activator.CreateInstance(t));
+            factory.CreateArticle();
         }
 
     }

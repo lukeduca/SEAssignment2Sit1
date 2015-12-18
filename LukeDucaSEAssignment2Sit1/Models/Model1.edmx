@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SEAssignment2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SEAssignment2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -27,6 +27,14 @@
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="MedaManager_Id" Type="int" Nullable="false" />
           <Property Name="ArticleStatus_Id" Type="int" Nullable="false" />
+          <Property Name="Article_State_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_ArticleState">
+          <Key>
+            <PropertyRef Name="Article_State_Id" />
+          </Key>
+          <Property Name="Article_State_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tbl_ArticleStatus">
           <Key>
@@ -53,6 +61,18 @@
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Role_Id" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_tbl_Article_tbl_ArticleState">
+          <End Role="tbl_ArticleState" Type="Self.tbl_ArticleState" Multiplicity="1" />
+          <End Role="tbl_Article" Type="Self.tbl_Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ArticleState">
+              <PropertyRef Name="Article_State_Id" />
+            </Principal>
+            <Dependent Role="tbl_Article">
+              <PropertyRef Name="Article_State_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_Article_tbl_ArticleStatus">
           <End Role="tbl_ArticleStatus" Type="Self.tbl_ArticleStatus" Multiplicity="1" />
           <End Role="tbl_Article" Type="Self.tbl_Article" Multiplicity="*" />
@@ -92,9 +112,14 @@
         <EntityContainer Name="SEAssignment2ModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Article" EntityType="Self.tbl_Article" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ArticleState" EntityType="Self.tbl_ArticleState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ArticleStatus" EntityType="Self.tbl_ArticleStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Roles" EntityType="Self.tbl_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Users" EntityType="Self.tbl_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_Article_tbl_ArticleState" Association="Self.FK_tbl_Article_tbl_ArticleState">
+            <End Role="tbl_ArticleState" EntitySet="tbl_ArticleState" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_Article_tbl_ArticleStatus" Association="Self.FK_tbl_Article_tbl_ArticleStatus">
             <End Role="tbl_ArticleStatus" EntitySet="tbl_ArticleStatus" />
             <End Role="tbl_Article" EntitySet="tbl_Article" />
@@ -108,8 +133,7 @@
             <End Role="tbl_Users" EntitySet="tbl_Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SEAssignment2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -137,6 +161,8 @@
           <Property Name="ArticleStatus_Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tbl_ArticleStatus" Relationship="Self.FK_tbl_Article_tbl_ArticleStatus" FromRole="tbl_Article" ToRole="tbl_ArticleStatus" />
           <NavigationProperty Name="tbl_Users" Relationship="Self.FK_tbl_Article_tbl_Users" FromRole="tbl_Article" ToRole="tbl_Users" />
+          <Property Name="Article_State_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_ArticleState" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState" FromRole="tbl_Article" ToRole="tbl_ArticleState" />
         </EntityType>
         <EntityType Name="tbl_ArticleStatus">
           <Key>
@@ -221,7 +247,32 @@
             <End Role="tbl_Roles" EntitySet="tbl_Roles" />
             <End Role="tbl_Users" EntitySet="tbl_Users" />
           </AssociationSet>
+          <EntitySet Name="tbl_ArticleState" EntityType="SEAssignment2Model.tbl_ArticleState" />
+          <AssociationSet Name="FK_tbl_Article_tbl_ArticleState" Association="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState">
+            <End Role="tbl_ArticleState" EntitySet="tbl_ArticleState" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="tbl_ArticleState">
+          <Key>
+            <PropertyRef Name="Article_State_Id" />
+          </Key>
+          <Property Name="Article_State_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Article" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState" FromRole="tbl_ArticleState" ToRole="tbl_Article" />
+        </EntityType>
+        <Association Name="FK_tbl_Article_tbl_ArticleState">
+          <End Type="SEAssignment2Model.tbl_ArticleState" Role="tbl_ArticleState" Multiplicity="1" />
+          <End Type="SEAssignment2Model.tbl_Article" Role="tbl_Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ArticleState">
+              <PropertyRef Name="Article_State_Id" />
+            </Principal>
+            <Dependent Role="tbl_Article">
+              <PropertyRef Name="Article_State_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -242,6 +293,7 @@
           <EntitySetMapping Name="tbl_Article">
             <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Article">
               <MappingFragment StoreEntitySet="tbl_Article">
+                <ScalarProperty Name="Article_State_Id" ColumnName="Article_State_Id" />
                 <ScalarProperty Name="Article_Id" ColumnName="Article_Id" />
                 <ScalarProperty Name="Article_Name" ColumnName="Article_Name" />
                 <ScalarProperty Name="Article_Description" ColumnName="Article_Description" />
@@ -278,6 +330,14 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ArticleState">
+            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_ArticleState">
+              <MappingFragment StoreEntitySet="tbl_ArticleState">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Article_State_Id" ColumnName="Article_State_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -4,10 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using LukeDucaSEAssignment2Sit1.Models;
 using System.Web.Security;
+using System.Web.Routing;
 
 namespace LukeDucaSEAssignment2Sit1.Controllers
 {
@@ -139,6 +141,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
                 if (user == "UserCredentialsMatched")
                 {
                     FormsAuthentication.SetAuthCookie(u.Username, true);
+                    //HttpContext.User = new GenericPrincipal();
                     ViewBag.GreetingMessage = "Welcome " + u.Username;
                     return View();
                 }
@@ -167,11 +170,11 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         public ActionResult Register(tbl_Users u)
         {
             MyService.ServiceController myServiceController = new MyService.ServiceController();
-            string newUser = myServiceController.Register(u.First_Name, u.Last_Name, u.Username, u.Password, u.Role_Id, true);
+            string newUser = myServiceController.Register(u.First_Name, u.Last_Name, u.Username, u.Password, u.Role_Id);
             ViewBag.Role_Id = new SelectList(db.tbl_Roles, "Role_Id", "Type");
             return View();
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
