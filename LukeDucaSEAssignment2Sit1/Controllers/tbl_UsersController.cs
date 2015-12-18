@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LukeDucaSEAssignment2Sit1.Models;
+using System.Web.Security;
 
 namespace LukeDucaSEAssignment2Sit1.Controllers
 {
@@ -119,6 +120,56 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             db.tbl_Users.Remove(tbl_Users);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        //Login
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(tbl_Users u)
+        {
+            try
+            {
+                MyService.ServiceController myServiceController = new MyService.ServiceController();
+                string user = myServiceController.Login(u.Username, u.Password);
+
+                if (user == "UserCredentialsMatched")
+                {
+                    FormsAuthentication.SetAuthCookie(u.Username, true);
+                    ViewBag.GreetingMessage = "Welcome " + u.Username;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Message = "Invalid Login Details - Please Try Again";
+                    return View();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Invalid Login Details - Please Try Again";
+                return View();
+            }
+        }
+
+        //Register
+        public ActionResult Register()
+        {
+            ViewBag.Role_Id = new SelectList(db.tbl_Roles, "Role_Id", "Type");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(tbl_Users u)
+        {
+            MyService.ServiceController myServiceController = new MyService.ServiceController();
+            string newUser = myServiceController.Register(u.First_Name, u.Last_Name, u.Username, u.Password, u.Role_Id, true);
+            ViewBag.Role_Id = new SelectList(db.tbl_Roles, "Role_Id", "Type");
+            return View();
         }
 
         protected override void Dispose(bool disposing)

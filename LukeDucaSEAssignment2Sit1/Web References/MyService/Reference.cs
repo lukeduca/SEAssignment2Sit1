@@ -31,6 +31,10 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         private System.Threading.SendOrPostCallback DoWorkOperationCompleted;
         
+        private System.Threading.SendOrPostCallback LoginOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RegisterOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -73,6 +77,12 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         public event DoWorkCompletedEventHandler DoWorkCompleted;
         
         /// <remarks/>
+        public event LoginCompletedEventHandler LoginCompleted;
+        
+        /// <remarks/>
+        public event RegisterCompletedEventHandler RegisterCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/DoWork", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public void DoWork() {
             this.Invoke("DoWork", new object[0]);
@@ -99,6 +109,78 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/Login", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Login([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string uname, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string pass) {
+            object[] results = this.Invoke("Login", new object[] {
+                        uname,
+                        pass});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LoginAsync(string uname, string pass) {
+            this.LoginAsync(uname, pass, null);
+        }
+        
+        /// <remarks/>
+        public void LoginAsync(string uname, string pass, object userState) {
+            if ((this.LoginOperationCompleted == null)) {
+                this.LoginOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginOperationCompleted);
+            }
+            this.InvokeAsync("Login", new object[] {
+                        uname,
+                        pass}, this.LoginOperationCompleted, userState);
+        }
+        
+        private void OnLoginOperationCompleted(object arg) {
+            if ((this.LoginCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LoginCompleted(this, new LoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/Register", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public string Register([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string firstName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string lastName, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string username, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] string password, int roleId, [System.Xml.Serialization.XmlIgnoreAttribute()] bool roleIdSpecified) {
+            object[] results = this.Invoke("Register", new object[] {
+                        firstName,
+                        lastName,
+                        username,
+                        password,
+                        roleId,
+                        roleIdSpecified});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RegisterAsync(string firstName, string lastName, string username, string password, int roleId, bool roleIdSpecified) {
+            this.RegisterAsync(firstName, lastName, username, password, roleId, roleIdSpecified, null);
+        }
+        
+        /// <remarks/>
+        public void RegisterAsync(string firstName, string lastName, string username, string password, int roleId, bool roleIdSpecified, object userState) {
+            if ((this.RegisterOperationCompleted == null)) {
+                this.RegisterOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRegisterOperationCompleted);
+            }
+            this.InvokeAsync("Register", new object[] {
+                        firstName,
+                        lastName,
+                        username,
+                        password,
+                        roleId,
+                        roleIdSpecified}, this.RegisterOperationCompleted, userState);
+        }
+        
+        private void OnRegisterOperationCompleted(object arg) {
+            if ((this.RegisterCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RegisterCompleted(this, new RegisterCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -120,6 +202,58 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
     public delegate void DoWorkCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void LoginCompletedEventHandler(object sender, LoginCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void RegisterCompletedEventHandler(object sender, RegisterCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RegisterCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RegisterCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

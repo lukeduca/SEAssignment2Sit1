@@ -120,10 +120,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\tbl_ArticleController.cs" />
     <Compile Include="Controllers\tbl_UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DesignPatterns\ArticleComponent.cs" />
+    <Compile Include="Models\DesignPatterns\ArticleFactory.cs" />
+    <Compile Include="Models\DesignPatterns\FbArticle.cs" />
+    <Compile Include="Models\DesignPatterns\TextArticle.cs" />
+    <Compile Include="Models\DesignPatterns\TwitterArticle.cs" />
+    <Compile Include="Models\DesignPatterns\UploadToEverySocialMedia.cs" />
+    <Compile Include="Models\DesignPatterns\VideoArticlecs.cs" />
     <Compile Include="Models\Services\IServiceController.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -233,6 +241,13 @@
     <Content Include="Views\tbl_Users\Details.cshtml" />
     <Content Include="Views\tbl_Users\Edit.cshtml" />
     <Content Include="Views\tbl_Users\Index.cshtml" />
+    <Content Include="Views\tbl_Users\Login.cshtml" />
+    <Content Include="Views\tbl_Article\Create.cshtml" />
+    <Content Include="Views\tbl_Article\Delete.cshtml" />
+    <Content Include="Views\tbl_Article\Details.cshtml" />
+    <Content Include="Views\tbl_Article\Edit.cshtml" />
+    <Content Include="Views\tbl_Article\Index.cshtml" />
+    <Content Include="Views\tbl_Users\Register.cshtml" />
     <Content Include="Web References\MyService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -241,7 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\DesignPatterns\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -260,10 +274,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:13413/ServiceController.svc%3fsingleWsdl">
+    <WebReferenceUrl Include="http://localhost:13413/Models/Services/ServiceController.svc%3fsingleWsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\MyService\</RelPath>
-      <UpdateFromURL>http://localhost:13413/ServiceController.svc%3fsingleWsdl</UpdateFromURL>
+      <UpdateFromURL>http://localhost:13413/Models/Services/ServiceController.svc%3fsingleWsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

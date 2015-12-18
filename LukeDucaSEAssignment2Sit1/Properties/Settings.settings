@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="LukeDucaSEAssignment2Sit1_MyService_ServiceController" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:13413/ServiceController.svc</Value>
+      <Value Profile="(Default)">http://localhost:13413/Models/Services/ServiceController.svc</Value>
     </Setting>
   </Settings>
 </SettingsFile>

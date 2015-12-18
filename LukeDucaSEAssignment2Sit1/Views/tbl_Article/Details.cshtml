@@ -1,0 +1,74 @@
+﻿@model LukeDucaSEAssignment2Sit1.Models.tbl_Article
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tbl_Article</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Article_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Article_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Article_Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Article_Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Article_Commets_Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Article_Commets_Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Article_PublishDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Article_PublishDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MedaManager_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedaManager_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tbl_ArticleStatus.ArticleStatus_Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tbl_ArticleStatus.ArticleStatus_Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tbl_Users.First_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tbl_Users.First_Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Article_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

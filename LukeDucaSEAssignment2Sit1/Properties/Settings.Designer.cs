@@ -26,7 +26,7 @@ namespace LukeDucaSEAssignment2Sit1.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:13413/ServiceController.svc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:13413/Models/Services/ServiceController.svc")]
         public string LukeDucaSEAssignment2Sit1_MyService_ServiceController {
             get {
                 return ((string)(this["LukeDucaSEAssignment2Sit1_MyService_ServiceController"]));
