@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using LukeDucaSEAssignment2Sit1.Models;
@@ -64,8 +65,10 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         }
 
         // GET: tbl_Article/Edit/5
-        public ActionResult Edit(int? id)
+       public ActionResult Edit(int? id)
         {
+            tbl_Users curretUser = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -75,9 +78,25 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type", tbl_Article.ArticleStatus_Id);
-            ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name", tbl_Article.User_Id);
-            return View(tbl_Article);
+
+           if (curretUser.Role_Id == 1)
+           {
+               ViewBag.ArticleStatus_Id =
+                   new SelectList(
+                       db.tbl_ArticleStatus.Where(
+                           x => x.ArticleStatus_Id == 1 || x.ArticleStatus_Id == 2 || x.ArticleStatus_Id == 3),
+                       "ArticleStatus_Id", "ArticleStatus_Type", tbl_Article.ArticleStatus_Id);
+           }
+           else if (curretUser.Role_Id == 2)
+           {
+               ViewBag.ArticleStatus_Id =
+                   new SelectList(
+                       db.tbl_ArticleStatus.Where(
+                           x => x.ArticleStatus_Id == 4 || x.ArticleStatus_Id == 5),
+                       "ArticleStatus_Id", "ArticleStatus_Type", tbl_Article.ArticleStatus_Id);
+           }
+           ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name", tbl_Article.User_Id);
+           return View(tbl_Article);
         }
 
         // POST: tbl_Article/Edit/5
@@ -85,17 +104,44 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Article_Id,Article_Name,Article_Description,Article_Commets_Content,Article_PublishDate,User_Id,MedaManager_Id,ArticleStatus_Id")] tbl_Article tbl_Article)
+        public ActionResult Edit(tbl_Article a)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(tbl_Article).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type", tbl_Article.ArticleStatus_Id);
+            //ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name", tbl_Article.User_Id);
+            //return View(tbl_Article);
+
+            tbl_Users curretUser = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name);
+
+            if (curretUser.Role_Id == 1) //Reviewer
             {
-                db.Entry(tbl_Article).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                MyService.ServiceController myServiceController = new MyService.ServiceController();
+                myServiceController.AcceptOrRejectArticleByReviewer(a.Article_Id, a.Article_Name, a.Article_Description,
+                    a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id,
+                    a.tbl_Comments.ArticleComment_Content, Convert.ToInt32(a.ArticleComment_Id));
+                ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type");
+                ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name");
+                return View();
             }
-            ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type", tbl_Article.ArticleStatus_Id);
-            ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name", tbl_Article.User_Id);
-            return View(tbl_Article);
+
+            else if (curretUser.Role_Id == 2) //Media Manager
+            {
+                MyService.ServiceController myServiceController = new MyService.ServiceController();
+                myServiceController.AcceptOrRejectArticleByMediaManager(a.Article_Id, a.Article_Name, a.Article_Description, 
+                    a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id,
+                    a.tbl_Comments.ArticleComment_Content, Convert.ToInt32(a.ArticleComment_Id));
+                ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type");
+                ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name");
+                return View();  
+            }
+
+            return View();
+
         }
 
         // GET: tbl_Article/Delete/5
@@ -138,11 +184,39 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
 
             MyService.ServiceController myServiceController = new MyService.ServiceController();
             myServiceController.SubmitNewArticle(a.Article_Name, a.Article_Description,
-                a.Article_Commets_Content, a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id,
-                a.Article_State_Id);
+                a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id,
+                a.Article_State_Id, Convert.ToInt32(a.ArticleComment_Id));
+
+           
             return View();
         }
        
+
+        //Get Pending Articles
+        public ActionResult GetPEndingArticles()
+        {
+            var articles =
+                db.tbl_Article.Where(
+                    x =>
+                        x.tbl_ArticleStatus.ArticleStatus_Id == 1 &&
+                        x.tbl_Users.Username != HttpContext.User.Identity.Name);
+            return View(articles);
+        }
+
+        //Get articles respective of the media manager that were accepted by the reviewer
+        public ActionResult GetAcceptedArticlesByReviewer()
+        {
+            tbl_Users curretUser = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name);
+
+            var articles = db.tbl_Article.Where(
+                x =>
+                    x.tbl_ArticleStatus.ArticleStatus_Id == 2 &&
+                    x.MedaManager_Id == curretUser.User_Id);
+
+            return View(articles);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

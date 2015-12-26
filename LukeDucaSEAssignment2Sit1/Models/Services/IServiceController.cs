@@ -26,7 +26,19 @@ namespace LukeDucaSEAssignment2Sit1
 
         [XmlSerializerFormat]
         [OperationContract]
-        void SubmitNewArticle(string articleName, string articleDescription, string articleComments,
-            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId);
+        void SubmitNewArticle(string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
+
+        [XmlSerializerFormat]
+        [OperationContract]
+        void AcceptOrRejectArticleByReviewer(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
+            string commentContent, int articleCommentId);
+
+        [XmlSerializerFormat]
+        [OperationContract]
+        void AcceptOrRejectArticleByMediaManager(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
+            string commentContent, int articleCommentId);
     }
 }

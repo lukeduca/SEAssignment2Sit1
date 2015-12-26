@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SEAssignment2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -22,12 +22,12 @@
           <Property Name="Article_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Article_Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Article_Description" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="Article_Commets_Content" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Article_PublishDate" Type="datetime" Nullable="false" />
           <Property Name="User_Id" Type="int" Nullable="false" />
           <Property Name="MedaManager_Id" Type="int" Nullable="false" />
           <Property Name="ArticleStatus_Id" Type="int" Nullable="false" />
           <Property Name="Article_State_Id" Type="int" Nullable="false" />
+          <Property Name="ArticleComment_Id" Type="int" />
         </EntityType>
         <EntityType Name="tbl_ArticleState">
           <Key>
@@ -42,6 +42,15 @@
           </Key>
           <Property Name="ArticleStatus_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ArticleStatus_Type" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Comments">
+          <Key>
+            <PropertyRef Name="ArticleComment_Id" />
+          </Key>
+          <Property Name="ArticleComment_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArticleComment_Content" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="User_Id" Type="int" Nullable="false" />
+          <Property Name="Article_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbl_Roles">
           <Key>
@@ -85,6 +94,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_Article_tbl_Comments">
+          <End Role="tbl_Comments" Type="Self.tbl_Comments" Multiplicity="0..1" />
+          <End Role="tbl_Article" Type="Self.tbl_Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Comments">
+              <PropertyRef Name="ArticleComment_Id" />
+            </Principal>
+            <Dependent Role="tbl_Article">
+              <PropertyRef Name="ArticleComment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_Article_tbl_Users">
           <End Role="tbl_Users" Type="Self.tbl_Users" Multiplicity="1" />
           <End Role="tbl_Article" Type="Self.tbl_Article" Multiplicity="*" />
@@ -109,11 +130,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SEAssignment2ModelStoreContainer">
+        <EntityContainer Name="StoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Article" EntityType="Self.tbl_Article" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ArticleState" EntityType="Self.tbl_ArticleState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ArticleStatus" EntityType="Self.tbl_ArticleStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Comments" EntityType="Self.tbl_Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Roles" EntityType="Self.tbl_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Users" EntityType="Self.tbl_Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tbl_Article_tbl_ArticleState" Association="Self.FK_tbl_Article_tbl_ArticleState">
@@ -122,6 +144,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_tbl_Article_tbl_ArticleStatus" Association="Self.FK_tbl_Article_tbl_ArticleStatus">
             <End Role="tbl_ArticleStatus" EntitySet="tbl_ArticleStatus" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Article_tbl_Comments" Association="Self.FK_tbl_Article_tbl_Comments">
+            <End Role="tbl_Comments" EntitySet="tbl_Comments" />
             <End Role="tbl_Article" EntitySet="tbl_Article" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_Article_tbl_Users" Association="Self.FK_tbl_Article_tbl_Users">
@@ -137,11 +163,40 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SEAssignment2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DataContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="SEAssignment2Model.sysdiagram" />
+          <EntitySet Name="tbl_Article" EntityType="SEAssignment2Model.tbl_Article" />
+          <EntitySet Name="tbl_ArticleState" EntityType="SEAssignment2Model.tbl_ArticleState" />
+          <EntitySet Name="tbl_ArticleStatus" EntityType="SEAssignment2Model.tbl_ArticleStatus" />
+          <EntitySet Name="tbl_Comments" EntityType="SEAssignment2Model.tbl_Comments" />
+          <EntitySet Name="tbl_Roles" EntityType="SEAssignment2Model.tbl_Roles" />
+          <EntitySet Name="tbl_Users" EntityType="SEAssignment2Model.tbl_Users" />
+          <AssociationSet Name="FK_tbl_Article_tbl_ArticleState" Association="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState">
+            <End Role="tbl_ArticleState" EntitySet="tbl_ArticleState" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Article_tbl_ArticleStatus" Association="SEAssignment2Model.FK_tbl_Article_tbl_ArticleStatus">
+            <End Role="tbl_ArticleStatus" EntitySet="tbl_ArticleStatus" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Article_tbl_Comments" Association="SEAssignment2Model.FK_tbl_Article_tbl_Comments">
+            <End Role="tbl_Comments" EntitySet="tbl_Comments" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Article_tbl_Users" Association="SEAssignment2Model.FK_tbl_Article_tbl_Users">
+            <End Role="tbl_Users" EntitySet="tbl_Users" />
+            <End Role="tbl_Article" EntitySet="tbl_Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Users_tbl_Roles" Association="SEAssignment2Model.FK_tbl_Users_tbl_Roles">
+            <End Role="tbl_Roles" EntitySet="tbl_Roles" />
+            <End Role="tbl_Users" EntitySet="tbl_Users" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -152,107 +207,19 @@
             <PropertyRef Name="Article_Id" />
           </Key>
           <Property Name="Article_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Article_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Article_Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Article_Commets_Content" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Article_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Article_Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Article_PublishDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="User_Id" Type="Int32" Nullable="false" />
           <Property Name="MedaManager_Id" Type="Int32" Nullable="false" />
           <Property Name="ArticleStatus_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tbl_ArticleStatus" Relationship="Self.FK_tbl_Article_tbl_ArticleStatus" FromRole="tbl_Article" ToRole="tbl_ArticleStatus" />
-          <NavigationProperty Name="tbl_Users" Relationship="Self.FK_tbl_Article_tbl_Users" FromRole="tbl_Article" ToRole="tbl_Users" />
           <Property Name="Article_State_Id" Type="Int32" Nullable="false" />
+          <Property Name="ArticleComment_Id" Type="Int32" />
           <NavigationProperty Name="tbl_ArticleState" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState" FromRole="tbl_Article" ToRole="tbl_ArticleState" />
+          <NavigationProperty Name="tbl_ArticleStatus" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_ArticleStatus" FromRole="tbl_Article" ToRole="tbl_ArticleStatus" />
+          <NavigationProperty Name="tbl_Comments" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_Comments" FromRole="tbl_Article" ToRole="tbl_Comments" />
+          <NavigationProperty Name="tbl_Users" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_Users" FromRole="tbl_Article" ToRole="tbl_Users" />
         </EntityType>
-        <EntityType Name="tbl_ArticleStatus">
-          <Key>
-            <PropertyRef Name="ArticleStatus_Id" />
-          </Key>
-          <Property Name="ArticleStatus_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ArticleStatus_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tbl_Article" Relationship="Self.FK_tbl_Article_tbl_ArticleStatus" FromRole="tbl_ArticleStatus" ToRole="tbl_Article" />
-        </EntityType>
-        <EntityType Name="tbl_Roles">
-          <Key>
-            <PropertyRef Name="Role_Id" />
-          </Key>
-          <Property Name="Role_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tbl_Users" Relationship="Self.FK_tbl_Users_tbl_Roles" FromRole="tbl_Roles" ToRole="tbl_Users" />
-        </EntityType>
-        <EntityType Name="tbl_Users">
-          <Key>
-            <PropertyRef Name="User_Id" />
-          </Key>
-          <Property Name="User_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Role_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tbl_Article" Relationship="Self.FK_tbl_Article_tbl_Users" FromRole="tbl_Users" ToRole="tbl_Article" />
-          <NavigationProperty Name="tbl_Roles" Relationship="Self.FK_tbl_Users_tbl_Roles" FromRole="tbl_Users" ToRole="tbl_Roles" />
-        </EntityType>
-        <Association Name="FK_tbl_Article_tbl_ArticleStatus">
-          <End Role="tbl_ArticleStatus" Type="Self.tbl_ArticleStatus" Multiplicity="1" />
-          <End Role="tbl_Article" Type="Self.tbl_Article" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_ArticleStatus">
-              <PropertyRef Name="ArticleStatus_Id" />
-            </Principal>
-            <Dependent Role="tbl_Article">
-              <PropertyRef Name="ArticleStatus_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_Article_tbl_Users">
-          <End Role="tbl_Users" Type="Self.tbl_Users" Multiplicity="1" />
-          <End Role="tbl_Article" Type="Self.tbl_Article" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_Users">
-              <PropertyRef Name="User_Id" />
-            </Principal>
-            <Dependent Role="tbl_Article">
-              <PropertyRef Name="User_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_Users_tbl_Roles">
-          <End Role="tbl_Roles" Type="Self.tbl_Roles" Multiplicity="1" />
-          <End Role="tbl_Users" Type="Self.tbl_Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbl_Roles">
-              <PropertyRef Name="Role_Id" />
-            </Principal>
-            <Dependent Role="tbl_Users">
-              <PropertyRef Name="Role_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="DataContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="tbl_Article" EntityType="Self.tbl_Article" />
-          <EntitySet Name="tbl_ArticleStatus" EntityType="Self.tbl_ArticleStatus" />
-          <EntitySet Name="tbl_Roles" EntityType="Self.tbl_Roles" />
-          <EntitySet Name="tbl_Users" EntityType="Self.tbl_Users" />
-          <AssociationSet Name="FK_tbl_Article_tbl_ArticleStatus" Association="Self.FK_tbl_Article_tbl_ArticleStatus">
-            <End Role="tbl_ArticleStatus" EntitySet="tbl_ArticleStatus" />
-            <End Role="tbl_Article" EntitySet="tbl_Article" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_Article_tbl_Users" Association="Self.FK_tbl_Article_tbl_Users">
-            <End Role="tbl_Users" EntitySet="tbl_Users" />
-            <End Role="tbl_Article" EntitySet="tbl_Article" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_Users_tbl_Roles" Association="Self.FK_tbl_Users_tbl_Roles">
-            <End Role="tbl_Roles" EntitySet="tbl_Roles" />
-            <End Role="tbl_Users" EntitySet="tbl_Users" />
-          </AssociationSet>
-          <EntitySet Name="tbl_ArticleState" EntityType="SEAssignment2Model.tbl_ArticleState" />
-          <AssociationSet Name="FK_tbl_Article_tbl_ArticleState" Association="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState">
-            <End Role="tbl_ArticleState" EntitySet="tbl_ArticleState" />
-            <End Role="tbl_Article" EntitySet="tbl_Article" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="tbl_ArticleState">
           <Key>
             <PropertyRef Name="Article_State_Id" />
@@ -260,6 +227,45 @@
           <Property Name="Article_State_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tbl_Article" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_ArticleState" FromRole="tbl_ArticleState" ToRole="tbl_Article" />
+        </EntityType>
+        <EntityType Name="tbl_ArticleStatus">
+          <Key>
+            <PropertyRef Name="ArticleStatus_Id" />
+          </Key>
+          <Property Name="ArticleStatus_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArticleStatus_Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Article" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_ArticleStatus" FromRole="tbl_ArticleStatus" ToRole="tbl_Article" />
+        </EntityType>
+        <EntityType Name="tbl_Comments">
+          <Key>
+            <PropertyRef Name="ArticleComment_Id" />
+          </Key>
+          <Property Name="ArticleComment_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArticleComment_Content" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="User_Id" Type="Int32" Nullable="false" />
+          <Property Name="Article_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_Article" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_Comments" FromRole="tbl_Comments" ToRole="tbl_Article" />
+        </EntityType>
+        <EntityType Name="tbl_Roles">
+          <Key>
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="Role_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Users" Relationship="SEAssignment2Model.FK_tbl_Users_tbl_Roles" FromRole="tbl_Roles" ToRole="tbl_Users" />
+        </EntityType>
+        <EntityType Name="tbl_Users">
+          <Key>
+            <PropertyRef Name="User_Id" />
+          </Key>
+          <Property Name="User_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="First_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_Article" Relationship="SEAssignment2Model.FK_tbl_Article_tbl_Users" FromRole="tbl_Users" ToRole="tbl_Article" />
+          <NavigationProperty Name="tbl_Roles" Relationship="SEAssignment2Model.FK_tbl_Users_tbl_Roles" FromRole="tbl_Users" ToRole="tbl_Roles" />
         </EntityType>
         <Association Name="FK_tbl_Article_tbl_ArticleState">
           <End Type="SEAssignment2Model.tbl_ArticleState" Role="tbl_ArticleState" Multiplicity="1" />
@@ -273,63 +279,83 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_tbl_Article_tbl_ArticleStatus">
+          <End Type="SEAssignment2Model.tbl_ArticleStatus" Role="tbl_ArticleStatus" Multiplicity="1" />
+          <End Type="SEAssignment2Model.tbl_Article" Role="tbl_Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ArticleStatus">
+              <PropertyRef Name="ArticleStatus_Id" />
+            </Principal>
+            <Dependent Role="tbl_Article">
+              <PropertyRef Name="ArticleStatus_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Article_tbl_Comments">
+          <End Type="SEAssignment2Model.tbl_Comments" Role="tbl_Comments" Multiplicity="0..1" />
+          <End Type="SEAssignment2Model.tbl_Article" Role="tbl_Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Comments">
+              <PropertyRef Name="ArticleComment_Id" />
+            </Principal>
+            <Dependent Role="tbl_Article">
+              <PropertyRef Name="ArticleComment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Article_tbl_Users">
+          <End Type="SEAssignment2Model.tbl_Users" Role="tbl_Users" Multiplicity="1" />
+          <End Type="SEAssignment2Model.tbl_Article" Role="tbl_Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Users">
+              <PropertyRef Name="User_Id" />
+            </Principal>
+            <Dependent Role="tbl_Article">
+              <PropertyRef Name="User_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Users_tbl_Roles">
+          <End Type="SEAssignment2Model.tbl_Roles" Role="tbl_Roles" Multiplicity="1" />
+          <End Type="SEAssignment2Model.tbl_Users" Role="tbl_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Roles">
+              <PropertyRef Name="Role_Id" />
+            </Principal>
+            <Dependent Role="tbl_Users">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SEAssignment2ModelStoreContainer" CdmEntityContainer="DataContext">
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="StoreContainer" CdmEntityContainer="DataContext" >
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="SEAssignment2Model.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Article">
             <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Article">
               <MappingFragment StoreEntitySet="tbl_Article">
+                <ScalarProperty Name="ArticleComment_Id" ColumnName="ArticleComment_Id" />
                 <ScalarProperty Name="Article_State_Id" ColumnName="Article_State_Id" />
-                <ScalarProperty Name="Article_Id" ColumnName="Article_Id" />
-                <ScalarProperty Name="Article_Name" ColumnName="Article_Name" />
-                <ScalarProperty Name="Article_Description" ColumnName="Article_Description" />
-                <ScalarProperty Name="Article_Commets_Content" ColumnName="Article_Commets_Content" />
-                <ScalarProperty Name="Article_PublishDate" ColumnName="Article_PublishDate" />
-                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="ArticleStatus_Id" ColumnName="ArticleStatus_Id" />
                 <ScalarProperty Name="MedaManager_Id" ColumnName="MedaManager_Id" />
-                <ScalarProperty Name="ArticleStatus_Id" ColumnName="ArticleStatus_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_ArticleStatus">
-            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_ArticleStatus">
-              <MappingFragment StoreEntitySet="tbl_ArticleStatus">
-                <ScalarProperty Name="ArticleStatus_Id" ColumnName="ArticleStatus_Id" />
-                <ScalarProperty Name="ArticleStatus_Type" ColumnName="ArticleStatus_Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Roles">
-            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Roles">
-              <MappingFragment StoreEntitySet="tbl_Roles">
-                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Users">
-            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Users">
-              <MappingFragment StoreEntitySet="tbl_Users">
                 <ScalarProperty Name="User_Id" ColumnName="User_Id" />
-                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
-                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+                <ScalarProperty Name="Article_PublishDate" ColumnName="Article_PublishDate" />
+                <ScalarProperty Name="Article_Description" ColumnName="Article_Description" />
+                <ScalarProperty Name="Article_Name" ColumnName="Article_Name" />
+                <ScalarProperty Name="Article_Id" ColumnName="Article_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -341,9 +367,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ArticleStatus">
+            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_ArticleStatus">
+              <MappingFragment StoreEntitySet="tbl_ArticleStatus">
+                <ScalarProperty Name="ArticleStatus_Type" ColumnName="ArticleStatus_Type" />
+                <ScalarProperty Name="ArticleStatus_Id" ColumnName="ArticleStatus_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Comments">
+            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Comments">
+              <MappingFragment StoreEntitySet="tbl_Comments">
+                <ScalarProperty Name="Article_Id" ColumnName="Article_Id" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+                <ScalarProperty Name="ArticleComment_Content" ColumnName="ArticleComment_Content" />
+                <ScalarProperty Name="ArticleComment_Id" ColumnName="ArticleComment_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Roles">
+            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Roles">
+              <MappingFragment StoreEntitySet="tbl_Roles">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Users">
+            <EntityTypeMapping TypeName="SEAssignment2Model.tbl_Users">
+              <MappingFragment StoreEntitySet="tbl_Users">
+                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -357,7 +420,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

@@ -50,21 +50,55 @@
           <xs:sequence>
             <xs:element minOccurs="0" maxOccurs="1" name="articleName" type="xs:string" />
             <xs:element minOccurs="0" maxOccurs="1" name="articleDescription" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="articleComments" type="xs:string" />
             <xs:element minOccurs="1" maxOccurs="1" name="dateOfPublish" type="xs:dateTime" />
             <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:int" />
             <xs:element minOccurs="1" maxOccurs="1" name="mediaManagerId" type="xs:int" />
             <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
             <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="SubmitNewArticleResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AcceptOrRejectArticleByReviewer">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="0" maxOccurs="1" name="SubmitNewArticleResult" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="artId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleDescription" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="dateOfPublish" type="xs:dateTime" />
+            <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mediaManagerId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="commentContent" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
           </xs:sequence>
         </xs:complexType>
+      </xs:element>
+      <xs:element name="AcceptOrRejectArticleByReviewerResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="AcceptOrRejectArticleByMediaManager">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="artId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleDescription" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="dateOfPublish" type="xs:dateTime" />
+            <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mediaManagerId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="commentContent" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AcceptOrRejectArticleByMediaManagerResponse">
+        <xs:complexType />
       </xs:element>
     </xs:schema>
   </wsdl:types>
@@ -92,6 +126,18 @@
   <wsdl:message name="IServiceController_SubmitNewArticle_OutputMessage">
     <wsdl:part name="parameters" element="tns:SubmitNewArticleResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceController_AcceptOrRejectArticleByReviewer_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptOrRejectArticleByReviewer" />
+  </wsdl:message>
+  <wsdl:message name="IServiceController_AcceptOrRejectArticleByReviewer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptOrRejectArticleByReviewerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServiceController_AcceptOrRejectArticleByMediaManager_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptOrRejectArticleByMediaManager" />
+  </wsdl:message>
+  <wsdl:message name="IServiceController_AcceptOrRejectArticleByMediaManager_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptOrRejectArticleByMediaManagerResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServiceController">
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/DoWork" message="tns:IServiceController_DoWork_InputMessage" />
@@ -108,6 +154,14 @@
     <wsdl:operation name="SubmitNewArticle">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/SubmitNewArticle" message="tns:IServiceController_SubmitNewArticle_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/SubmitNewArticleResponse" message="tns:IServiceController_SubmitNewArticle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOrRejectArticleByReviewer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/AcceptOrRejectArticleByReviewer" message="tns:IServiceController_AcceptOrRejectArticleByReviewer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/AcceptOrRejectArticleByReviewerResponse" message="tns:IServiceController_AcceptOrRejectArticleByReviewer_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOrRejectArticleByMediaManager">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/AcceptOrRejectArticleByMediaManager" message="tns:IServiceController_AcceptOrRejectArticleByMediaManager_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/AcceptOrRejectArticleByMediaManagerResponse" message="tns:IServiceController_AcceptOrRejectArticleByMediaManager_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceController" type="tns:IServiceController">
@@ -141,6 +195,24 @@
     </wsdl:operation>
     <wsdl:operation name="SubmitNewArticle">
       <soap:operation soapAction="http://tempuri.org/IServiceController/SubmitNewArticle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOrRejectArticleByReviewer">
+      <soap:operation soapAction="http://tempuri.org/IServiceController/AcceptOrRejectArticleByReviewer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOrRejectArticleByMediaManager">
+      <soap:operation soapAction="http://tempuri.org/IServiceController/AcceptOrRejectArticleByMediaManager" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

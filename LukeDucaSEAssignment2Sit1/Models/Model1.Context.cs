@@ -27,9 +27,10 @@ namespace LukeDucaSEAssignment2Sit1.Models
     
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<tbl_Article> tbl_Article { get; set; }
+        public DbSet<tbl_ArticleState> tbl_ArticleState { get; set; }
         public DbSet<tbl_ArticleStatus> tbl_ArticleStatus { get; set; }
+        public DbSet<tbl_Comments> tbl_Comments { get; set; }
         public DbSet<tbl_Roles> tbl_Roles { get; set; }
         public DbSet<tbl_Users> tbl_Users { get; set; }
-        public DbSet<tbl_ArticleState> tbl_ArticleState { get; set; }
     }
 }

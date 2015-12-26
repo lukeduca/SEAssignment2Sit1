@@ -17,5 +17,11 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
         public virtual void UpdateArticle()
         { }
 
+        public virtual void ReviewArticleByReviewer()
+        { }
+
+        public virtual void ReviewArticleByMediaManager()
+        { }
+
     }
 }

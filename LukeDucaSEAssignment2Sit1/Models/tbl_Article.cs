@@ -17,15 +17,16 @@ namespace LukeDucaSEAssignment2Sit1.Models
         public int Article_Id { get; set; }
         public string Article_Name { get; set; }
         public string Article_Description { get; set; }
-        public string Article_Commets_Content { get; set; }
         public System.DateTime Article_PublishDate { get; set; }
         public int User_Id { get; set; }
         public int MedaManager_Id { get; set; }
         public int ArticleStatus_Id { get; set; }
         public int Article_State_Id { get; set; }
+        public Nullable<int> ArticleComment_Id { get; set; }
     
-        public virtual tbl_ArticleStatus tbl_ArticleStatus { get; set; }
-        public virtual tbl_Users tbl_Users { get; set; }
         public virtual tbl_ArticleState tbl_ArticleState { get; set; }
+        public virtual tbl_ArticleStatus tbl_ArticleStatus { get; set; }
+        public virtual tbl_Comments tbl_Comments { get; set; }
+        public virtual tbl_Users tbl_Users { get; set; }
     }
 }

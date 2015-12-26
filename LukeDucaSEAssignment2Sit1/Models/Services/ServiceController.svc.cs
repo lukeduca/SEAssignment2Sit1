@@ -64,12 +64,30 @@ namespace LukeDucaSEAssignment2Sit1
         }
 
 
-        public void SubmitNewArticle(string articleName, string articleDescription, string articleComments, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId)
+        public void SubmitNewArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId)
         {
             Type t = Type.GetType("LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
-            ArticleFactory factory = new TextArticle(articleName, articleDescription, articleComments, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, (IArticleState)Activator.CreateInstance(t));
+            ArticleFactory factory = new TextArticle(articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, (IArticleState)Activator.CreateInstance(t));
             factory.CreateArticle();
         }
 
+
+        public void AcceptOrRejectArticleByReviewer(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
+        {
+            Type t =
+                Type.GetType(
+                    "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.AcceptOrRejectArticleStateByReviewer");
+            ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent, (IArticleState)Activator.CreateInstance(t));
+            factory.ReviewArticleByReviewer();
+        }
+
+        public void AcceptOrRejectArticleByMediaManager(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
+        {
+            Type t =
+                Type.GetType(
+                    "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.AcceptOrRejectArticleStateByMediaManager");
+            ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent, (IArticleState)Activator.CreateInstance(t));
+            factory.ReviewArticleByMediaManager();
+        }
     }
 }

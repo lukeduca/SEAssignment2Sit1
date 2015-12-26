@@ -12,7 +12,17 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
 
         void SubmitArticle();
 
-        string SubmitNewArticle(string articleName, string articleDescription, string articleComments,
-            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId);
+        string SubmitNewArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
+
+        void AcceptOrRejectArticle();
+
+        string AcceptOrRejectArticleByR(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent,
+            int articleCommentId);
+
+        string AcceptOrRejectArticleByMm(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
+            string commentContent, int articleCommentId);
+
     }
 }

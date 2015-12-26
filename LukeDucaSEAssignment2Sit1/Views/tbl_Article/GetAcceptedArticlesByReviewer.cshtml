@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<LukeDucaSEAssignment2Sit1.Models.tbl_Article>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "GetAcceptedArticlesByReviewer";
 }
 
-<h2>Index</h2>
+<h2>GetAcceptedArticlesByReviewer</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -24,7 +24,13 @@
             @Html.DisplayNameFor(model => model.MedaManager_Id)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.tbl_ArticleState.Type)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.tbl_ArticleStatus.ArticleStatus_Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_Comments.ArticleComment_Content)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.tbl_Users.First_Name)
@@ -47,7 +53,13 @@
             @Html.DisplayFor(modelItem => item.MedaManager_Id)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.tbl_ArticleState.Type)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.tbl_ArticleStatus.ArticleStatus_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_Comments.ArticleComment_Content)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.tbl_Users.First_Name)

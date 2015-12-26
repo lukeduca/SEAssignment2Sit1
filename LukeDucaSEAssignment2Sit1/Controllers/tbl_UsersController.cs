@@ -174,6 +174,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             ViewBag.Role_Id = new SelectList(db.tbl_Roles, "Role_Id", "Type");
             return View();
         }
+         
         
         protected override void Dispose(bool disposing)
         {
