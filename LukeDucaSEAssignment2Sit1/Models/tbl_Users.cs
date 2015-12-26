@@ -17,6 +17,7 @@ namespace LukeDucaSEAssignment2Sit1.Models
         public tbl_Users()
         {
             this.tbl_Article = new HashSet<tbl_Article>();
+            this.tbl_Workflows = new HashSet<tbl_Workflows>();
         }
     
         public int User_Id { get; set; }
@@ -28,5 +29,6 @@ namespace LukeDucaSEAssignment2Sit1.Models
     
         public virtual ICollection<tbl_Article> tbl_Article { get; set; }
         public virtual tbl_Roles tbl_Roles { get; set; }
+        public virtual ICollection<tbl_Workflows> tbl_Workflows { get; set; }
     }
 }

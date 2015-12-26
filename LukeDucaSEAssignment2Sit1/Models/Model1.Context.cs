@@ -32,5 +32,6 @@ namespace LukeDucaSEAssignment2Sit1.Models
         public DbSet<tbl_Comments> tbl_Comments { get; set; }
         public DbSet<tbl_Roles> tbl_Roles { get; set; }
         public DbSet<tbl_Users> tbl_Users { get; set; }
+        public DbSet<tbl_Workflows> tbl_Workflows { get; set; }
     }
 }

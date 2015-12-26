@@ -12,18 +12,13 @@ namespace LukeDucaSEAssignment2Sit1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_ArticleState
+    public partial class tbl_Workflows
     {
-        public tbl_ArticleState()
-        {
-            this.tbl_Article = new HashSet<tbl_Article>();
-            this.tbl_Workflows = new HashSet<tbl_Workflows>();
-        }
+        public int Workflow_Id { get; set; }
+        public int User_Id { get; set; }
+        public int State_Id { get; set; }
     
-        public int Article_State_Id { get; set; }
-        public string Type { get; set; }
-    
-        public virtual ICollection<tbl_Article> tbl_Article { get; set; }
-        public virtual ICollection<tbl_Workflows> tbl_Workflows { get; set; }
+        public virtual tbl_ArticleState tbl_ArticleState { get; set; }
+        public virtual tbl_Users tbl_Users { get; set; }
     }
 }

@@ -17,6 +17,9 @@
         <AssociationConnector Association="SEAssignment2Model.FK_tbl_Article_tbl_Comments" />
         <AssociationConnector Association="SEAssignment2Model.FK_tbl_Article_tbl_Users" />
         <AssociationConnector Association="SEAssignment2Model.FK_tbl_Users_tbl_Roles" />
+        <EntityTypeShape EntityType="SEAssignment2Model.tbl_Workflows" Width="1.5" PointX="12" PointY="1.25" />
+        <AssociationConnector Association="SEAssignment2Model.FK_tbl_Workflows_tbl_ArticleState" />
+        <AssociationConnector Association="SEAssignment2Model.FK_tbl_Workflows_tbl_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
