@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -48,6 +49,35 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             else
             {
                 return null;
+            }
+        }
+
+        public void DeleteArticle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DeleteConfirmed(int artId)
+        {
+            int article = 0;
+            
+            tbl_Article a = db.tbl_Article.SingleOrDefault(x => x.Article_Id == artId);
+            tbl_Comments c = db.tbl_Comments.SingleOrDefault(x => x.Article_Id == artId);
+
+            db.Entry(a).State = EntityState.Deleted;
+            db.SaveChanges();
+
+            db.Entry(c).State = EntityState.Deleted;
+            db.SaveChanges();
+
+            if (article != null)
+            {
+                return article;
+            }
+            else
+            {
+                //throw new Exception();
+                return 0;
             }
         }
 

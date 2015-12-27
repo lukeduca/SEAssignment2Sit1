@@ -40,5 +40,9 @@ namespace LukeDucaSEAssignment2Sit1
         void AcceptOrRejectArticleByMediaManager(int artId, string articleName, string articleDescription,
             DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
             string commentContent, int articleCommentId);
+
+        [XmlSerializerFormat]
+        [OperationContract]
+        void DeleteArticle(int artId);
     }
 }

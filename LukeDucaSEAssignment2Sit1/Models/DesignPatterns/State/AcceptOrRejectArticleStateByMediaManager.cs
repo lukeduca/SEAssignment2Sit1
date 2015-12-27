@@ -42,11 +42,16 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             updatedArticle.ArticleStatus_Id = articleStatusId;
             if (articleStatusId == 4) //Accepted by Media Manager
             {
-                updatedArticle.Article_State_Id = 2;
+                //updatedArticle.Article_State_Id = 2;
+                tbl_Workflows currentPosOfWorkflow = db.tbl_Workflows.SingleOrDefault(x => x.User_Id == userId && x.State_Id == updatedArticle.Article_State_Id);
+                tbl_Workflows nextPosOfWorkFlow =
+                 db.tbl_Workflows.SingleOrDefault(x => x.Workflow_Id == currentPosOfWorkflow.Workflow_Id + 1 && x.User_Id == userId);
+
+                updatedArticle.Article_State_Id = nextPosOfWorkFlow.State_Id;
             }
             else if (articleStatusId == 5) //Rejected by Media Manager
             {
-                updatedArticle.Article_State_Id = 3;
+                updatedArticle.Article_State_Id = 4;
             }
 
             tbl_Comments newComment = new tbl_Comments();
@@ -89,6 +94,11 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             {
                 return null;
             }
+        }
+
+        public int DeleteConfirmed(int artId)
+        {
+            throw new NotImplementedException();
         }
 
         public void SubmitArticle()

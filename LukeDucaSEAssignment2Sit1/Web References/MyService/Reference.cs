@@ -41,6 +41,8 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         private System.Threading.SendOrPostCallback AcceptOrRejectArticleByMediaManagerOperationCompleted;
         
+        private System.Threading.SendOrPostCallback DeleteArticleOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -96,6 +98,9 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         /// <remarks/>
         public event AcceptOrRejectArticleByMediaManagerCompletedEventHandler AcceptOrRejectArticleByMediaManagerCompleted;
+        
+        /// <remarks/>
+        public event DeleteArticleCompletedEventHandler DeleteArticleCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/DoWork", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -326,6 +331,34 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/DeleteArticle", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DeleteArticle(int artId) {
+            this.Invoke("DeleteArticle", new object[] {
+                        artId});
+        }
+        
+        /// <remarks/>
+        public void DeleteArticleAsync(int artId) {
+            this.DeleteArticleAsync(artId, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteArticleAsync(int artId, object userState) {
+            if ((this.DeleteArticleOperationCompleted == null)) {
+                this.DeleteArticleOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteArticleOperationCompleted);
+            }
+            this.InvokeAsync("DeleteArticle", new object[] {
+                        artId}, this.DeleteArticleOperationCompleted, userState);
+        }
+        
+        private void OnDeleteArticleOperationCompleted(object arg) {
+            if ((this.DeleteArticleCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteArticleCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -411,6 +444,10 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
     public delegate void AcceptOrRejectArticleByMediaManagerCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void DeleteArticleCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

@@ -266,6 +266,8 @@
     <Content Include="Views\tbl_Article\GetPEndingArticles.cshtml" />
     <Content Include="Views\tbl_Article\_PartialView.cshtml" />
     <Content Include="Views\tbl_Article\GetAcceptedArticlesByReviewer.cshtml" />
+    <Content Include="Views\tbl_Article\GetRejectedArticles.cshtml" />
+    <Content Include="Views\tbl_Article\DeleteConfirmed.cshtml" />
     <Content Include="Web References\MyService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

@@ -58,7 +58,12 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
             this.articleState = articleState;
         }
 
-        
+        //Constructor
+        public TextArticle(int articleId, IArticleState articleState)
+        {
+            this.artId = articleId;
+            this.articleState = articleState;
+        }
 
         public override void CreateArticle()
         {
@@ -70,6 +75,7 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
         public override void DeleteArticle()
         {
             base.DeleteArticle();
+            articleState.DeleteConfirmed(artId);
         }
 
         public override void UpdateArticle()

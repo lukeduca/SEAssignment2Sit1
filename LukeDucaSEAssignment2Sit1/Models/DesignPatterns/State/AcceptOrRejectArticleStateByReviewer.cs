@@ -50,7 +50,7 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             }
             else if (articleStatusId == 3) //Rejected by Reviewer
             {
-                updatedArticle.Article_State_Id = 3;
+                updatedArticle.Article_State_Id = 4;
             }
 
             tbl_Comments newComment = new tbl_Comments();
@@ -101,6 +101,9 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             throw new NotImplementedException();
         }
 
-        
+        public int DeleteConfirmed(int artId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

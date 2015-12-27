@@ -164,12 +164,20 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            MyService.ServiceController myServiceController = new MyService.ServiceController();
+            myServiceController.DeleteArticle(id);
+            return View();
+        }
+
+        /*[HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
             tbl_Article tbl_Article = db.tbl_Article.Find(id);
             db.tbl_Article.Remove(tbl_Article);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
+        }*/
 
        //Submitting a new article
         public ActionResult SubmitArticle()
@@ -212,6 +220,19 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
                 x =>
                     x.tbl_ArticleStatus.ArticleStatus_Id == 2 &&
                     x.MedaManager_Id == curretUser.User_Id);
+
+            return View(articles);
+        }
+
+        //Get articles that where rejected by Reviewer or Media Manager respective to the logged in user
+        public ActionResult GetRejectedArticles()
+        {
+            tbl_Users curretUser = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name);
+
+            var articles = db.tbl_Article.Where(
+                x =>
+                    x.tbl_ArticleState.Article_State_Id == 4 &&
+                    x.tbl_Users.Username == HttpContext.User.Identity.Name);
 
             return View(articles);
         }

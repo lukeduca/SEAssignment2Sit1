@@ -1,0 +1,75 @@
+﻿@model IEnumerable<LukeDucaSEAssignment2Sit1.Models.tbl_Article>
+
+@{
+    ViewBag.Title = "GetRejectedArticles";
+}
+
+<h2>GetRejectedArticles</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Article_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Article_Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Article_PublishDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MedaManager_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_ArticleState.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_ArticleStatus.ArticleStatus_Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_Comments.ArticleComment_Content)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbl_Users.First_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Article_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Article_Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Article_PublishDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedaManager_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_ArticleState.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_ArticleStatus.ArticleStatus_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_Comments.ArticleComment_Content)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tbl_Users.First_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Article_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Article_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Article_Id })
+        </td>
+    </tr>
+}
+
+</table>

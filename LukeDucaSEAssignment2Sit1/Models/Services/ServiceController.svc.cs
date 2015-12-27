@@ -53,6 +53,30 @@ namespace LukeDucaSEAssignment2Sit1
             db.Entry(newUser).State = EntityState.Added;
             db.SaveChanges();
 
+            if (newUser.Role_Id == 1)
+            {
+                //When article being subbmitted
+                tbl_Workflows newWorkflowInStateId1 = new tbl_Workflows();
+                newWorkflowInStateId1.User_Id = newUser.User_Id;
+                newWorkflowInStateId1.State_Id = 1;
+                db.Entry(newWorkflowInStateId1).State = EntityState.Added;
+                db.SaveChanges();
+
+                //When article being reviewed by Reviewer
+                tbl_Workflows newWorkflowInStateId2 = new tbl_Workflows();
+                newWorkflowInStateId2.User_Id = newUser.User_Id;
+                newWorkflowInStateId2.State_Id = 2;
+                db.Entry(newWorkflowInStateId2).State = EntityState.Added;
+                db.SaveChanges();
+
+                //When article being reviewed by Media Manager
+                tbl_Workflows newWorkflowInStateId3 = new tbl_Workflows();
+                newWorkflowInStateId3.User_Id = newUser.User_Id;
+                newWorkflowInStateId3.State_Id = 3;
+                db.Entry(newWorkflowInStateId3).State = EntityState.Added;
+                db.SaveChanges();
+            }
+
             if (nUser != "")
             {
                 return nUser;
@@ -89,5 +113,15 @@ namespace LukeDucaSEAssignment2Sit1
             ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent, (IArticleState)Activator.CreateInstance(t));
             factory.ReviewArticleByMediaManager();
         }
+
+        public void DeleteArticle(int artId)
+        {
+            Type t =
+                Type.GetType(
+                    "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
+            ArticleFactory factory = new TextArticle(artId, (IArticleState)Activator.CreateInstance(t));
+            factory.DeleteArticle();
+        }
+
     }
 }
