@@ -26,5 +26,8 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
 
         int DeleteConfirmed(int artId);
 
+        string SubmitUpdatedArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
+
     }
 }

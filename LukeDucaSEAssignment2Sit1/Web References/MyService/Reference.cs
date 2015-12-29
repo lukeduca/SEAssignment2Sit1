@@ -43,6 +43,8 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         private System.Threading.SendOrPostCallback DeleteArticleOperationCompleted;
         
+        private System.Threading.SendOrPostCallback SubmitUpdatedArticleOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -101,6 +103,9 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         
         /// <remarks/>
         public event DeleteArticleCompletedEventHandler DeleteArticleCompleted;
+        
+        /// <remarks/>
+        public event SubmitUpdatedArticleCompletedEventHandler SubmitUpdatedArticleCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/DoWork", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -359,6 +364,50 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IServiceController/SubmitUpdatedArticle", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void SubmitUpdatedArticle(int artId, string articleName, string articleDescription, System.DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId) {
+            this.Invoke("SubmitUpdatedArticle", new object[] {
+                        artId,
+                        articleName,
+                        articleDescription,
+                        dateOfPublish,
+                        userId,
+                        mediaManagerId,
+                        articleStatusId,
+                        articleStateId,
+                        articleCommentId});
+        }
+        
+        /// <remarks/>
+        public void SubmitUpdatedArticleAsync(int artId, string articleName, string articleDescription, System.DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId) {
+            this.SubmitUpdatedArticleAsync(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, null);
+        }
+        
+        /// <remarks/>
+        public void SubmitUpdatedArticleAsync(int artId, string articleName, string articleDescription, System.DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, object userState) {
+            if ((this.SubmitUpdatedArticleOperationCompleted == null)) {
+                this.SubmitUpdatedArticleOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSubmitUpdatedArticleOperationCompleted);
+            }
+            this.InvokeAsync("SubmitUpdatedArticle", new object[] {
+                        artId,
+                        articleName,
+                        articleDescription,
+                        dateOfPublish,
+                        userId,
+                        mediaManagerId,
+                        articleStatusId,
+                        articleStateId,
+                        articleCommentId}, this.SubmitUpdatedArticleOperationCompleted, userState);
+        }
+        
+        private void OnSubmitUpdatedArticleOperationCompleted(object arg) {
+            if ((this.SubmitUpdatedArticleCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SubmitUpdatedArticleCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -448,6 +497,10 @@ namespace LukeDucaSEAssignment2Sit1.MyService {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
     public delegate void DeleteArticleCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.79.0")]
+    public delegate void SubmitUpdatedArticleCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

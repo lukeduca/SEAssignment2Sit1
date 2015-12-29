@@ -123,5 +123,19 @@ namespace LukeDucaSEAssignment2Sit1
             factory.DeleteArticle();
         }
 
+
+        public void SubmitUpdatedArticle(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId,
+            int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId)
+        {
+            Type t =
+                Type.GetType(
+                    "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
+            ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId,
+                mediaManagerId, articleStatusId, articleStateId, articleCommentId,
+                (IArticleState) Activator.CreateInstance(t));
+            factory.UpdateArticle();
+        }
+
     }
 }

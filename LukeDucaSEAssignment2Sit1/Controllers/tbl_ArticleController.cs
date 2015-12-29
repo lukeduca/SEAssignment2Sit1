@@ -168,7 +168,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             myServiceController.DeleteArticle(id);
             return View();
         }
-
+        
         /*[HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -237,6 +237,42 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             return View(articles);
         }
 
+        public ActionResult UpdateArticle(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tbl_Article tbl_Article = db.tbl_Article.Find(id);
+            if (tbl_Article == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tbl_Article);
+        }
+
+        [HttpPost, ActionName("UpdateArticle")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateArticle(tbl_Article a)
+        {
+            a.User_Id = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name).User_Id;
+            int commId = db.tbl_Comments.SingleOrDefault(x => x.Article_Id == a.Article_Id).ArticleComment_Id;
+
+            if (commId != null)
+            {
+                a.ArticleComment_Id = commId;
+            }
+            else
+            {
+                a.ArticleComment_Id = null;
+            }
+
+            MyService.ServiceController myServiceController = new MyService.ServiceController();
+            myServiceController.SubmitUpdatedArticle(a.Article_Id, a.Article_Name, a.Article_Description,
+                a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id, 
+                Convert.ToInt32(a.ArticleComment_Id));
+            return View();
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -134,7 +134,6 @@
     <Compile Include="Models\DesignPatterns\State\NewArticleState.cs" />
     <Compile Include="Models\DesignPatterns\TextArticle.cs" />
     <Compile Include="Models\DesignPatterns\TwitterArticle.cs" />
-    <Compile Include="Models\DesignPatterns\UploadToEverySocialMedia.cs" />
     <Compile Include="Models\DesignPatterns\VideoArticlecs.cs" />
     <Compile Include="Models\Services\IServiceController.cs" />
     <Compile Include="Models\Model1.Context.cs">
@@ -268,6 +267,7 @@
     <Content Include="Views\tbl_Article\GetAcceptedArticlesByReviewer.cshtml" />
     <Content Include="Views\tbl_Article\GetRejectedArticles.cshtml" />
     <Content Include="Views\tbl_Article\DeleteConfirmed.cshtml" />
+    <Content Include="Views\tbl_Article\UpdateArticle.cshtml" />
     <Content Include="Web References\MyService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

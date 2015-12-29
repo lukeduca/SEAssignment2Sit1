@@ -65,6 +65,21 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
             this.articleState = articleState;
         }
 
+        //Constructor
+        public TextArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, IArticleState articleState)
+        {
+            this.artId = artId;
+            this.articleName = articleName;
+            this.articleDescription = articleDescription;
+            this.dateOfPublish = dateOfPublish;
+            this.userId = userId;
+            this.mediaManagerId = mediaManagerId;
+            this.articleStatusId = articleStatusId;
+            this.articleStateId = articleStateId;
+            this.articleCommentId = articleCommentId;
+            this.articleState = articleState;
+        }
+
         public override void CreateArticle()
         {
             base.CreateArticle();
@@ -81,6 +96,8 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
         public override void UpdateArticle()
         {
             base.UpdateArticle();
+            articleState.SubmitUpdatedArticle(artId, articleName, articleDescription, dateOfPublish, userId,
+                mediaManagerId, articleStatusId, articleStateId, articleCommentId);
         }
 
         

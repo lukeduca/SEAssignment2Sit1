@@ -81,6 +81,48 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             }
         }
 
+        public void UpdateRejectedArticle()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string SubmitUpdatedArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId)
+        {
+            string uArticle = "";
+
+            tbl_Article updatedArticle = db.tbl_Article.SingleOrDefault(x => x.Article_Id == artId);
+            updatedArticle.Article_Id = artId;
+            updatedArticle.Article_Name = articleName;
+            updatedArticle.Article_Description = articleDescription;
+            updatedArticle.Article_PublishDate = dateOfPublish;
+            updatedArticle.User_Id = userId;
+            updatedArticle.MedaManager_Id = mediaManagerId;
+            updatedArticle.ArticleStatus_Id = 1;
+            updatedArticle.Article_State_Id = 1;
+            updatedArticle.ArticleComment_Id = articleCommentId;
+
+            if (updatedArticle.ArticleComment_Id != null)
+            {
+                updatedArticle.ArticleComment_Id = articleCommentId;
+            }
+            else
+            {
+                updatedArticle.ArticleComment_Id = null;
+            }
+
+            db.Entry(updatedArticle).State = EntityState.Modified;
+            db.SaveChanges();
+
+            if (uArticle != "")
+            {
+                return uArticle;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void AcceptOrRejectArticle()
         {
             throw new NotImplementedException();

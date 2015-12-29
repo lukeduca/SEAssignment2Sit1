@@ -11,7 +11,7 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
         {
         }
 
-        public FbArticle(ArticleFactory af, ArticleComponent ac) : base(af, ac)
+        public FbArticle(ArticleComponent ac) : base(ac)
         {
         }
 

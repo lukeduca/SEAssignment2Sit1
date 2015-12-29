@@ -105,5 +105,11 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
         {
             throw new NotImplementedException();
         }
+
+        public string SubmitUpdatedArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId,
+            int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

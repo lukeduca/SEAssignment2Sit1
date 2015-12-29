@@ -7,16 +7,14 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
 {
     public abstract class ArticleComponent
     {
-        ArticleFactory aFactory { get; set; }
         ArticleComponent aComponent { get; set; }
 
         protected ArticleComponent()
         {
         }
 
-        protected ArticleComponent(ArticleFactory af, ArticleComponent ac)
+        protected ArticleComponent(ArticleComponent ac)
         {
-            this.aFactory = af;
             this.aComponent = ac;
         }
 

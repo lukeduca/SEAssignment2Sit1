@@ -110,6 +110,24 @@
       <xs:element name="DeleteArticleResponse">
         <xs:complexType />
       </xs:element>
+      <xs:element name="SubmitUpdatedArticle">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="artId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleDescription" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="dateOfPublish" type="xs:dateTime" />
+            <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mediaManagerId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SubmitUpdatedArticleResponse">
+        <xs:complexType />
+      </xs:element>
     </xs:schema>
   </wsdl:types>
   <wsdl:message name="IServiceController_DoWork_InputMessage">
@@ -154,6 +172,12 @@
   <wsdl:message name="IServiceController_DeleteArticle_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteArticleResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceController_SubmitUpdatedArticle_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitUpdatedArticle" />
+  </wsdl:message>
+  <wsdl:message name="IServiceController_SubmitUpdatedArticle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitUpdatedArticleResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServiceController">
     <wsdl:operation name="DoWork">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/DoWork" message="tns:IServiceController_DoWork_InputMessage" />
@@ -182,6 +206,10 @@
     <wsdl:operation name="DeleteArticle">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/DeleteArticle" message="tns:IServiceController_DeleteArticle_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/DeleteArticleResponse" message="tns:IServiceController_DeleteArticle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubmitUpdatedArticle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/SubmitUpdatedArticle" message="tns:IServiceController_SubmitUpdatedArticle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/SubmitUpdatedArticleResponse" message="tns:IServiceController_SubmitUpdatedArticle_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceController" type="tns:IServiceController">
@@ -242,6 +270,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteArticle">
       <soap:operation soapAction="http://tempuri.org/IServiceController/DeleteArticle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitUpdatedArticle">
+      <soap:operation soapAction="http://tempuri.org/IServiceController/SubmitUpdatedArticle" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
