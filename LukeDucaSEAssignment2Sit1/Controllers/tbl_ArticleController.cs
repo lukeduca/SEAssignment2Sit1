@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using LukeDucaSEAssignment2Sit1.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace LukeDucaSEAssignment2Sit1.Controllers
 {
@@ -64,6 +65,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             return View(tbl_Article);
         }
 
+        [Authorize]
         // GET: tbl_Article/Edit/5
        public ActionResult Edit(int? id)
         {
@@ -118,12 +120,16 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
 
             tbl_Users curretUser = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name);
 
+            //tbl_Article currArt = db.tbl_Article.SingleOrDefault(x => x.Article_Id == a.Article_Id);
+            //a.Article_State_Id = currArt.Article_State_Id;
+
             if (curretUser.Role_Id == 1) //Reviewer
             {
                 MyService.ServiceController myServiceController = new MyService.ServiceController();
                 myServiceController.AcceptOrRejectArticleByReviewer(a.Article_Id, a.Article_Name, a.Article_Description,
                     a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id,
-                    a.tbl_Comments.ArticleComment_Content, Convert.ToInt32(a.ArticleComment_Id));
+                    a.tbl_Comments.ArticleComment_Content, Convert.ToInt32(a.ArticleComment_Id), "TextArticle");
+
                 ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type");
                 ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name");
                 return View();
@@ -132,9 +138,10 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             else if (curretUser.Role_Id == 2) //Media Manager
             {
                 MyService.ServiceController myServiceController = new MyService.ServiceController();
-                myServiceController.AcceptOrRejectArticleByMediaManager(a.Article_Id, a.Article_Name, a.Article_Description, 
+                myServiceController.AcceptOrRejectArticleByMediaManager(a.Article_Id, a.Article_Name, a.Article_Description,
                     a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id,
-                    a.tbl_Comments.ArticleComment_Content, Convert.ToInt32(a.ArticleComment_Id));
+                    a.tbl_Comments.ArticleComment_Content, Convert.ToInt32(a.ArticleComment_Id), "TextArticle");
+
                 ViewBag.ArticleStatus_Id = new SelectList(db.tbl_ArticleStatus, "ArticleStatus_Id", "ArticleStatus_Type");
                 ViewBag.User_Id = new SelectList(db.tbl_Users, "User_Id", "First_Name");
                 return View();  
@@ -144,6 +151,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
 
         }
 
+        [Authorize]
         // GET: tbl_Article/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -165,7 +173,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             MyService.ServiceController myServiceController = new MyService.ServiceController();
-            myServiceController.DeleteArticle(id);
+            myServiceController.DeleteArticle(id, "TextArticle");
             return View();
         }
         
@@ -180,8 +188,14 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         }*/
 
        //Submitting a new article
+        [Authorize]
         public ActionResult SubmitArticle()
         {
+            ViewBag.MediaManager_ID =
+                   new SelectList(
+                       db.tbl_Users.Where(
+                           x => x.Role_Id == 2),
+                       "User_Id", "Username");
             return View();
         }
 
@@ -189,17 +203,20 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         public ActionResult SubmitArticle(tbl_Article a)
         {
             a.User_Id = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name).User_Id;
-
-            MyService.ServiceController myServiceController = new MyService.ServiceController();
-            myServiceController.SubmitNewArticle(a.Article_Name, a.Article_Description,
-                a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id,
-                a.Article_State_Id, Convert.ToInt32(a.ArticleComment_Id));
-
            
+            MyService.ServiceController myServiceController = new MyService.ServiceController();
+            myServiceController.SubmitNewArticle(a.Article_Name, a.Article_Description, a.Article_PublishDate, a.User_Id, 
+                a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id, Convert.ToInt32(a.ArticleComment_Id), "TextArticle");
+
+            ViewBag.MediaManager_ID =
+                    new SelectList(
+                        db.tbl_Users.Where(
+                            x => x.Role_Id == 2),
+                        "User_Id", "Username");
             return View();
         }
        
-
+        [Authorize]
         //Get Pending Articles
         public ActionResult GetPEndingArticles()
         {
@@ -208,7 +225,17 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
                     x =>
                         x.tbl_ArticleStatus.ArticleStatus_Id == 1 &&
                         x.tbl_Users.Username != HttpContext.User.Identity.Name);
-            return View(articles);
+
+            if (articles.Any())
+            {
+                return View(articles);
+            }
+            else
+            {
+                ViewData["ErrMsg"] = "No Articles To Show";
+                return View();
+            }
+
         }
 
         //Get articles respective of the media manager that were accepted by the reviewer
@@ -221,10 +248,21 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
                     x.tbl_ArticleStatus.ArticleStatus_Id == 2 &&
                     x.MedaManager_Id == curretUser.User_Id);
 
-            return View(articles);
+            if (articles.Any())
+            {
+                return View(articles);
+            }
+            else
+            {
+                ViewData["ErrMsg"] = "No Articles To Show";
+                return View();
+            }
+            
         }
 
         //Get articles that where rejected by Reviewer or Media Manager respective to the logged in user
+        //[Authorize(Roles = "MediaManager")]
+        [Authorize]
         public ActionResult GetRejectedArticles()
         {
             tbl_Users curretUser = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name);
@@ -236,7 +274,8 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
 
             return View(articles);
         }
-
+        
+        [Authorize(Roles = "Writer")]
         public ActionResult UpdateArticle(int? id)
         {
             if (id == null)
@@ -256,21 +295,31 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
         public ActionResult UpdateArticle(tbl_Article a)
         {
             a.User_Id = db.tbl_Users.SingleOrDefault(x => x.Username == HttpContext.User.Identity.Name).User_Id;
-            int commId = db.tbl_Comments.SingleOrDefault(x => x.Article_Id == a.Article_Id).ArticleComment_Id;
 
-            if (commId != null)
+            tbl_Comments com = new tbl_Comments();
+            com = db.tbl_Comments.SingleOrDefault(x => x.Article_Id == a.Article_Id);
+            if (com == null)
             {
-                a.ArticleComment_Id = commId;
+                com = new tbl_Comments();
+            }
+            
+            string commentContent = "";
+
+            if (com.ArticleComment_Id != 0)
+            {
+                a.ArticleComment_Id = com.ArticleComment_Id;
+                commentContent = com.ArticleComment_Content;
             }
             else
             {
                 a.ArticleComment_Id = null;
+                commentContent = "";
             }
 
             MyService.ServiceController myServiceController = new MyService.ServiceController();
             myServiceController.SubmitUpdatedArticle(a.Article_Id, a.Article_Name, a.Article_Description,
-                a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id, 
-                Convert.ToInt32(a.ArticleComment_Id));
+                a.Article_PublishDate, a.User_Id, a.MedaManager_Id, a.ArticleStatus_Id, a.Article_State_Id,
+                commentContent, Convert.ToInt32(a.ArticleComment_Id), "TextArticle");
             return View();
         }
 

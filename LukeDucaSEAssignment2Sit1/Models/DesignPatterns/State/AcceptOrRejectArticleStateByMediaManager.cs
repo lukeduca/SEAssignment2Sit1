@@ -25,6 +25,12 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             throw new NotImplementedException();
         }
 
+        public string AcceptOrRejectArticleByR(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
+        {
+            throw new NotImplementedException();
+        }
+
         public string AcceptOrRejectArticleByMm(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
         {
             string uArticle = "";
@@ -119,12 +125,6 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
         }
 
         public void AcceptOrRejectArticle()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string AcceptOrRejectArticleByR(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
-            int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
         {
             throw new NotImplementedException();
         }

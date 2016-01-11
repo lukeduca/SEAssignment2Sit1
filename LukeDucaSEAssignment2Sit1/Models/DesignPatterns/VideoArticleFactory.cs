@@ -5,11 +5,12 @@ using System.Web;
 
 namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
 {
-    public class FbArticle:Decorator
+    public class VideoArticleFactory: ArticleFactory2
     {
-        public FbArticle(ArticleComponent ac) : base(ac)
+        public override Article create()
         {
+            return new VideoArticlecs();
         }
-       
+
     }
 }

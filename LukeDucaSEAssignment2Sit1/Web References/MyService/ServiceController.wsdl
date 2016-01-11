@@ -2,6 +2,7 @@
 <wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ServiceController" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/LukeDucaSEAssignment2Sit1.Models.DesignPatterns" />
       <xs:element name="DoWork">
         <xs:complexType>
           <xs:sequence />
@@ -56,10 +57,31 @@
             <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
             <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
             <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleType" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="SubmitNewArticleResponse">
+        <xs:complexType />
+      </xs:element>
+      <xs:element name="SubmitUpdatedArticle">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="artId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleName" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleDescription" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="dateOfPublish" type="xs:dateTime" />
+            <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="mediaManagerId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="commentContent" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleType" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SubmitUpdatedArticleResponse">
         <xs:complexType />
       </xs:element>
       <xs:element name="AcceptOrRejectArticleByReviewer">
@@ -75,6 +97,7 @@
             <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
             <xs:element minOccurs="0" maxOccurs="1" name="commentContent" type="xs:string" />
             <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleType" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -94,6 +117,7 @@
             <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
             <xs:element minOccurs="0" maxOccurs="1" name="commentContent" type="xs:string" />
             <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleType" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -104,30 +128,86 @@
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="1" maxOccurs="1" name="artId" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" name="articleType" type="xs:string" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="DeleteArticleResponse">
         <xs:complexType />
       </xs:element>
-      <xs:element name="SubmitUpdatedArticle">
+      <xs:element name="get">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="1" maxOccurs="1" name="artId" type="xs:int" />
-            <xs:element minOccurs="0" maxOccurs="1" name="articleName" type="xs:string" />
-            <xs:element minOccurs="0" maxOccurs="1" name="articleDescription" type="xs:string" />
-            <xs:element minOccurs="1" maxOccurs="1" name="dateOfPublish" type="xs:dateTime" />
-            <xs:element minOccurs="1" maxOccurs="1" name="userId" type="xs:int" />
-            <xs:element minOccurs="1" maxOccurs="1" name="mediaManagerId" type="xs:int" />
-            <xs:element minOccurs="1" maxOccurs="1" name="articleStatusId" type="xs:int" />
-            <xs:element minOccurs="1" maxOccurs="1" name="articleStateId" type="xs:int" />
-            <xs:element minOccurs="1" maxOccurs="1" name="articleCommentId" type="xs:int" />
+            <xs:element minOccurs="0" name="artID" type="xs:int" />
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="SubmitUpdatedArticleResponse">
-        <xs:complexType />
+      <xs:element name="getResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/LukeDucaSEAssignment2Sit1.Models.DesignPatterns" minOccurs="0" name="getResult" nillable="true" type="q1:Article" />
+          </xs:sequence>
+        </xs:complexType>
       </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName" />
+      <xs:attribute name="Id" type="xs:ID" />
+      <xs:attribute name="Ref" type="xs:IDREF" />
+    </xs:schema>
+    <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/LukeDucaSEAssignment2Sit1.Models.DesignPatterns" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/LukeDucaSEAssignment2Sit1.Models.DesignPatterns" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="Article">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ArtId" type="xs:int" />
+          <xs:element minOccurs="0" name="ArticleCommentId" type="xs:int" />
+          <xs:element minOccurs="0" name="ArticleName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="ArticleState" nillable="true" type="xs:anyType" />
+          <xs:element minOccurs="0" name="ArticleStateId" type="xs:int" />
+          <xs:element minOccurs="0" name="ArticleStatusId" type="xs:int" />
+          <xs:element minOccurs="0" name="CommentContent" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DateOfPublish" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="MediaManagerId" type="xs:int" />
+          <xs:element minOccurs="0" name="UserId" type="xs:int" />
+          <xs:element minOccurs="0" name="articleState" nillable="true" type="xs:anyType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Article" nillable="true" type="tns:Article" />
     </xs:schema>
   </wsdl:types>
   <wsdl:message name="IServiceController_DoWork_InputMessage">
@@ -154,6 +234,12 @@
   <wsdl:message name="IServiceController_SubmitNewArticle_OutputMessage">
     <wsdl:part name="parameters" element="tns:SubmitNewArticleResponse" />
   </wsdl:message>
+  <wsdl:message name="IServiceController_SubmitUpdatedArticle_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitUpdatedArticle" />
+  </wsdl:message>
+  <wsdl:message name="IServiceController_SubmitUpdatedArticle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubmitUpdatedArticleResponse" />
+  </wsdl:message>
   <wsdl:message name="IServiceController_AcceptOrRejectArticleByReviewer_InputMessage">
     <wsdl:part name="parameters" element="tns:AcceptOrRejectArticleByReviewer" />
   </wsdl:message>
@@ -172,11 +258,11 @@
   <wsdl:message name="IServiceController_DeleteArticle_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteArticleResponse" />
   </wsdl:message>
-  <wsdl:message name="IServiceController_SubmitUpdatedArticle_InputMessage">
-    <wsdl:part name="parameters" element="tns:SubmitUpdatedArticle" />
+  <wsdl:message name="IServiceController_get_InputMessage">
+    <wsdl:part name="parameters" element="tns:get" />
   </wsdl:message>
-  <wsdl:message name="IServiceController_SubmitUpdatedArticle_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SubmitUpdatedArticleResponse" />
+  <wsdl:message name="IServiceController_get_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getResponse" />
   </wsdl:message>
   <wsdl:portType name="IServiceController">
     <wsdl:operation name="DoWork">
@@ -195,6 +281,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/SubmitNewArticle" message="tns:IServiceController_SubmitNewArticle_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/SubmitNewArticleResponse" message="tns:IServiceController_SubmitNewArticle_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="SubmitUpdatedArticle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/SubmitUpdatedArticle" message="tns:IServiceController_SubmitUpdatedArticle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/SubmitUpdatedArticleResponse" message="tns:IServiceController_SubmitUpdatedArticle_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="AcceptOrRejectArticleByReviewer">
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/AcceptOrRejectArticleByReviewer" message="tns:IServiceController_AcceptOrRejectArticleByReviewer_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/AcceptOrRejectArticleByReviewerResponse" message="tns:IServiceController_AcceptOrRejectArticleByReviewer_OutputMessage" />
@@ -207,9 +297,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/DeleteArticle" message="tns:IServiceController_DeleteArticle_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/DeleteArticleResponse" message="tns:IServiceController_DeleteArticle_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="SubmitUpdatedArticle">
-      <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/SubmitUpdatedArticle" message="tns:IServiceController_SubmitUpdatedArticle_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/SubmitUpdatedArticleResponse" message="tns:IServiceController_SubmitUpdatedArticle_OutputMessage" />
+    <wsdl:operation name="get">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceController/get" message="tns:IServiceController_get_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceController/getResponse" message="tns:IServiceController_get_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServiceController" type="tns:IServiceController">
@@ -250,6 +340,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SubmitUpdatedArticle">
+      <soap:operation soapAction="http://tempuri.org/IServiceController/SubmitUpdatedArticle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="AcceptOrRejectArticleByReviewer">
       <soap:operation soapAction="http://tempuri.org/IServiceController/AcceptOrRejectArticleByReviewer" style="document" />
       <wsdl:input>
@@ -277,8 +376,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="SubmitUpdatedArticle">
-      <soap:operation soapAction="http://tempuri.org/IServiceController/SubmitUpdatedArticle" style="document" />
+    <wsdl:operation name="get">
+      <soap:operation soapAction="http://tempuri.org/IServiceController/get" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

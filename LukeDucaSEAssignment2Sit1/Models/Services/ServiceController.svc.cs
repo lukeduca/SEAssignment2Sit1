@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -87,55 +88,140 @@ namespace LukeDucaSEAssignment2Sit1
             }
         }
 
-
-        public void SubmitNewArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId)
+        public void SubmitNewArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId,
+            int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, string articleType)
         {
+            ArticleFactory2 fac = null;
+            IArticleState articleState = new NewArticleState();
+
             Type t = Type.GetType("LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
-            ArticleFactory factory = new TextArticle(articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, (IArticleState)Activator.CreateInstance(t));
-            factory.CreateArticle();
+            if (articleType.Equals("TextArticle"))
+            {
+                fac = new TextArticleFactory();
+                Article article = fac.create();
+                TextArticle textArticle = (TextArticle)article;
+                textArticle.CreateArticle(articleName, articleDescription, dateOfPublish, userId, mediaManagerId,
+                    articleStatusId, articleStateId, articleCommentId, articleState);
+            }
+            else if (articleType.Equals("VideoArticle"))
+            {
+                fac = new VideoArticleFactory();
+                Article article = fac.create();
+                VideoArticlecs videoArticle = (VideoArticlecs)article;
+            }
         }
 
-
-        public void AcceptOrRejectArticleByReviewer(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
+        public void SubmitUpdatedArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent,
+            int articleCommentId, string articleType)
         {
+            ArticleFactory2 fac = null;
+            IArticleState articleState = new NewArticleState();
+
+            Type t = Type.GetType("LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
+            if (articleType.Equals("TextArticle"))
+            {
+                fac = new TextArticleFactory();
+                Article article = get(artId);
+                TextArticle textArticle = (TextArticle) article;
+                textArticle.UpdateArticle(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId,
+                    articleStatusId, articleStateId, articleCommentId, articleState);
+            }
+            else if (articleType.Equals("VideoArticle"))
+            {
+                fac = new VideoArticleFactory();
+                Article article = get(artId);
+                VideoArticlecs videoArticle = (VideoArticlecs)article;
+            }
+
+        }
+
+        public void AcceptOrRejectArticleByReviewer(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, 
+            string commentContent, int articleCommentId, string articleType)
+        {
+            ArticleFactory2 fac = null;
+            IArticleState articleState = new NewArticleState();
+
             Type t =
                 Type.GetType(
                     "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.AcceptOrRejectArticleStateByReviewer");
-            ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent, (IArticleState)Activator.CreateInstance(t));
-            factory.ReviewArticleByReviewer();
+            if (articleType.Equals("TextArticle"))
+            {
+                fac = new TextArticleFactory();
+                Article article = get(artId);
+                TextArticle textArticle = (TextArticle)article;
+                textArticle.ReviewArticleByReviewer(artId, articleName, articleDescription, dateOfPublish, userId,
+                    mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent, (IArticleState)Activator.CreateInstance(t));
+            }
+            else if (articleType.Equals("VideoArticle"))
+            {
+                fac = new VideoArticleFactory();
+                Article article = get(artId);
+                VideoArticlecs videoArticle = (VideoArticlecs)article;
+            }
+
         }
 
-        public void AcceptOrRejectArticleByMediaManager(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)
+        public void AcceptOrRejectArticleByMediaManager(int artId, string articleName, string articleDescription, 
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, 
+            string commentContent, int articleCommentId, string articleType)
         {
+            ArticleFactory2 fac = null;
+            IArticleState articleState = new NewArticleState();
             Type t =
                 Type.GetType(
                     "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.AcceptOrRejectArticleStateByMediaManager");
-            ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent, (IArticleState)Activator.CreateInstance(t));
-            factory.ReviewArticleByMediaManager();
+            if (articleType.Equals("TextArticle"))
+            {
+                fac = new TextArticleFactory();
+                Article article = get(artId);
+                TextArticle textArticle = (TextArticle)article;
+                textArticle.ReviewArticleByMediaManager(artId, articleName, articleDescription, dateOfPublish, userId,
+                    mediaManagerId, articleStatusId, articleStateId, articleCommentId, commentContent,
+                    (IArticleState) Activator.CreateInstance(t));
+            }
+            else if (articleType.Equals("VideoArticle"))
+            {
+                fac = new VideoArticleFactory();
+                Article article = get(artId);
+                VideoArticlecs videoArticle = (VideoArticlecs)article;
+            }
         }
 
-        public void DeleteArticle(int artId)
+        public void DeleteArticle(int artId, string articleType)
         {
-            Type t =
-                Type.GetType(
-                    "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
-            ArticleFactory factory = new TextArticle(artId, (IArticleState)Activator.CreateInstance(t));
-            factory.DeleteArticle();
+            ArticleFactory2 fac = null;
+            IArticleState articleState = new NewArticleState();
+
+            Type t = Type.GetType("LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
+            if (articleType.Equals("TextArticle"))
+            {
+                fac = new TextArticleFactory();
+                Article article = get(artId);
+                TextArticle text = (TextArticle) article;
+                text.DeleteArticle(artId, articleState);
+            }
+            else if (articleType.Equals("VideoArticle"))
+            {
+                fac = new VideoArticleFactory();
+                Article article = get(artId);
+                TextArticle text = (TextArticle) article;
+            }
         }
-
-
-        public void SubmitUpdatedArticle(int artId, string articleName, string articleDescription,
-            DateTime dateOfPublish, int userId,
-            int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId)
+        
+        
+        public Article get(int artID)
         {
-            Type t =
-                Type.GetType(
-                    "LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State.NewArticleState");
-            ArticleFactory factory = new TextArticle(artId, articleName, articleDescription, dateOfPublish, userId,
-                mediaManagerId, articleStatusId, articleStateId, articleCommentId,
-                (IArticleState) Activator.CreateInstance(t));
-            factory.UpdateArticle();
+            DataContext db = new DataContext();
+            Article a = new TextArticle();
+
+            a.ArtId = db.tbl_Article.SingleOrDefault(x => x.Article_Id == artID).Article_Id;
+            return a;
         }
 
+        
     }
+         
+         
 }

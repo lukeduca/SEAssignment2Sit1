@@ -143,7 +143,7 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
                     FormsAuthentication.SetAuthCookie(u.Username, true);
                     //HttpContext.User = new GenericPrincipal();
                     ViewBag.GreetingMessage = "Welcome " + u.Username;
-                    return View();
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -174,7 +174,12 @@ namespace LukeDucaSEAssignment2Sit1.Controllers
             ViewBag.Role_Id = new SelectList(db.tbl_Roles, "Role_Id", "Type");
             return View();
         }
-         
+
+        public ActionResult LogOff()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
         
         protected override void Dispose(bool disposing)
         {

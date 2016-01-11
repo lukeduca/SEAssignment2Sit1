@@ -12,7 +12,8 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
 
         void SubmitArticle();
 
-        string SubmitNewArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
+        string SubmitNewArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId, 
+            int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
 
         void AcceptOrRejectArticle();
 

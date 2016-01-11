@@ -6,119 +6,63 @@ using LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State;
 
 namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
 {
-    public class TextArticle: ArticleFactory
+    public class TextArticle: Article
     {
-        
-        private string articleName;
         private string articleDescription;
-        private DateTime dateOfPublish;
-        private int userId;
-        private int mediaManagerId;
-        private int articleStatusId;
-        private int articleStateId;
-        private int articleCommentId;
 
-        private int artId;
-        private string commentContent;
-
-        private IArticleState articleState;
-
-        //Empty Contstructor
-        public TextArticle ()
+        public TextArticle(string articleName, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, int artId, string commentContent, IArticleState articleState, string articleDescription) : base(articleName, dateOfPublish, userId, mediaManagerId, articleStatusId, articleStateId, articleCommentId, artId, commentContent, articleState)
         {
-        }
-
-        //Constructor
-        public TextArticle(string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, IArticleState articleState)
-        {
-            this.articleName = articleName;
             this.articleDescription = articleDescription;
-            this.dateOfPublish = dateOfPublish;
-            this.userId = userId;
-            this.mediaManagerId = mediaManagerId;
-            this.articleStatusId = articleStatusId;
-            this.articleStateId = articleStateId;
-            this.articleCommentId = articleCommentId;
-            this.articleState = articleState;
         }
 
-        //Constructor
-        public TextArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, string commentContent, IArticleState articleState)
+        public TextArticle(int artId, IArticleState articleState) : base(artId, articleState)
         {
-            this.artId = artId;
-            this.articleName = articleName;
-            this.articleDescription = articleDescription;
-            this.dateOfPublish = dateOfPublish;
-            this.userId = userId;
-            this.mediaManagerId = mediaManagerId;
-            this.articleStatusId = articleStatusId;
-            this.articleStateId = articleStateId;
-            this.articleCommentId = articleCommentId;
-            this.commentContent = commentContent;
-            this.articleState = articleState;
         }
 
-        //Constructor
-        public TextArticle(int articleId, IArticleState articleState)
+        public TextArticle()
         {
-            this.artId = articleId;
-            this.articleState = articleState;
         }
 
-        //Constructor
-        public TextArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, IArticleState articleState)
+        public override void CreateArticle(string articleName, string articleDescription, DateTime dateOfPublish, 
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId, 
+            IArticleState articleState)
         {
-            this.artId = artId;
-            this.articleName = articleName;
-            this.articleDescription = articleDescription;
-            this.dateOfPublish = dateOfPublish;
-            this.userId = userId;
-            this.mediaManagerId = mediaManagerId;
-            this.articleStatusId = articleStatusId;
-            this.articleStateId = articleStateId;
-            this.articleCommentId = articleCommentId;
-            this.articleState = articleState;
-        }
-
-        public override void CreateArticle()
-        {
-            base.CreateArticle();
             articleState.SubmitNewArticle(articleName, articleDescription, dateOfPublish, userId,
-                mediaManagerId, articleStatusId, articleStateId, articleCommentId);
+                mediaManagerId, articleStatusId, articleStateId, articleCommentId);            
         }
 
-        public override void DeleteArticle()
+        public override void DeleteArticle(int articleId, IArticleState articleState)
         {
-            base.DeleteArticle();
-            articleState.DeleteConfirmed(artId);
+            articleState.DeleteConfirmed(articleId);
         }
 
-        public override void UpdateArticle()
+
+        public override void UpdateArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId,
+            IArticleState articleState)
         {
-            base.UpdateArticle();
             articleState.SubmitUpdatedArticle(artId, articleName, articleDescription, dateOfPublish, userId,
                 mediaManagerId, articleStatusId, articleStateId, articleCommentId);
         }
 
-        
-        public override void ReviewArticleByReviewer()
+
+        public override void ReviewArticleByReviewer(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
+            int articleCommentId, string commentContent, IArticleState articleState)
         {
-            base.ReviewArticleByReviewer();
             articleState.AcceptOrRejectArticleByR(artId, articleName, articleDescription, dateOfPublish, userId,
                 mediaManagerId, articleStatusId, articleStateId, commentContent, articleCommentId);
         }
 
-        public override void ReviewArticleByMediaManager()
+
+        public override void ReviewArticleByMediaManager(int artId, string articleName, string articleDescription,
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
+            int articleCommentId, string commentContent, IArticleState articleState)
         {
-            base.ReviewArticleByMediaManager();
             articleState.AcceptOrRejectArticleByMm(artId, articleName, articleDescription, dateOfPublish, userId,
                 mediaManagerId, articleStatusId, articleStateId, commentContent, articleCommentId);
         }
-
- 
-        
          
-
         
     }
 }

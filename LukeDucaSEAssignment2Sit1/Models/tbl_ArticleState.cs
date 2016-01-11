@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace LukeDucaSEAssignment2Sit1.Models
 {
     using System;
@@ -21,6 +23,8 @@ namespace LukeDucaSEAssignment2Sit1.Models
         }
     
         public int Article_State_Id { get; set; }
+
+        [Display(Name = "Article State")]
         public string Type { get; set; }
     
         public virtual ICollection<tbl_Article> tbl_Article { get; set; }

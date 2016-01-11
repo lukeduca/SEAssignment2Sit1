@@ -62,13 +62,13 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             int article = 0;
             
             tbl_Article a = db.tbl_Article.SingleOrDefault(x => x.Article_Id == artId);
-            tbl_Comments c = db.tbl_Comments.SingleOrDefault(x => x.Article_Id == artId);
+            //tbl_Comments c = db.tbl_Comments.SingleOrDefault(x => x.Article_Id == artId);
 
             db.Entry(a).State = EntityState.Deleted;
             db.SaveChanges();
 
-            db.Entry(c).State = EntityState.Deleted;
-            db.SaveChanges();
+            //db.Entry(c).State = EntityState.Deleted;
+            //db.SaveChanges();
 
             if (article != null)
             {
@@ -101,7 +101,7 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
             updatedArticle.Article_State_Id = 1;
             updatedArticle.ArticleComment_Id = articleCommentId;
 
-            if (updatedArticle.ArticleComment_Id != null)
+            if (updatedArticle.ArticleComment_Id != 0)
             {
                 updatedArticle.ArticleComment_Id = articleCommentId;
             }
@@ -133,6 +133,7 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns.State
         {
             throw new NotImplementedException();
         }
+
 
         public string AcceptOrRejectArticleByMm(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
             int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent, int articleCommentId)

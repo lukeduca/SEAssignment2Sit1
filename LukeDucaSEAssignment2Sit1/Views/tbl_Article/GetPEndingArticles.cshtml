@@ -1,14 +1,12 @@
-﻿@model IEnumerable<LukeDucaSEAssignment2Sit1.Models.tbl_Article>
+﻿@using System.Linq
+@model IEnumerable<LukeDucaSEAssignment2Sit1.Models.tbl_Article>
 
 @{
     ViewBag.Title = "GetPEndingArticles";
 }
 
-<h2>GetPEndingArticles</h2>
+<h2>Pending Articles</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -37,39 +35,49 @@
         </th>
         <th></th>
     </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Article_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Article_Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Article_PublishDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MedaManager_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tbl_ArticleState.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tbl_ArticleStatus.ArticleStatus_Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tbl_Comments.ArticleComment_Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tbl_Users.First_Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Article_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Article_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Article_Id })
-        </td>
-    </tr>
-}
-
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Article_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Article_Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Article_PublishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedaManager_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tbl_ArticleState.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tbl_ArticleStatus.ArticleStatus_Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tbl_Comments.ArticleComment_Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tbl_Users.First_Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Article_Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Article_Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Article_Id })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        @ViewData["ErrMsg"]
+    }
 </table>
+
+
+

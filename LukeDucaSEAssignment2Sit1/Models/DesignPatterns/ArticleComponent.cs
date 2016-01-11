@@ -18,7 +18,7 @@ namespace LukeDucaSEAssignment2Sit1.Models.DesignPatterns
             this.aComponent = ac;
         }
 
-        public abstract void upload(ArticleFactory articleFactory);
+        public abstract void upload();
 
     }
 }

@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace LukeDucaSEAssignment2Sit1.Models
 {
     using System;
@@ -20,6 +22,8 @@ namespace LukeDucaSEAssignment2Sit1.Models
         }
     
         public int ArticleComment_Id { get; set; }
+
+        [Display(Name = "Comments")]
         public string ArticleComment_Content { get; set; }
         public int User_Id { get; set; }
         public int Article_Id { get; set; }

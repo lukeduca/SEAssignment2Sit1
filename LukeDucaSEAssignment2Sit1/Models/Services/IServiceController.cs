@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Web.Services.Description;
+using LukeDucaSEAssignment2Sit1.Models.DesignPatterns;
 
 namespace LukeDucaSEAssignment2Sit1
 {
@@ -27,28 +29,34 @@ namespace LukeDucaSEAssignment2Sit1
         [XmlSerializerFormat]
         [OperationContract]
         void SubmitNewArticle(string articleName, string articleDescription,
-            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
+            DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId,
+            int articleStateId, int articleCommentId, string articleType);
+
+        [XmlSerializerFormat]
+        [OperationContract]
+        void SubmitUpdatedArticle(int artId, string articleName, string articleDescription, DateTime dateOfPublish,
+            int userId, int mediaManagerId, int articleStatusId, int articleStateId, string commentContent,
+            int articleCommentId, string articleType);
 
         [XmlSerializerFormat]
         [OperationContract]
         void AcceptOrRejectArticleByReviewer(int artId, string articleName, string articleDescription,
             DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
-            string commentContent, int articleCommentId);
+            string commentContent, int articleCommentId, string articleType);
 
         [XmlSerializerFormat]
         [OperationContract]
         void AcceptOrRejectArticleByMediaManager(int artId, string articleName, string articleDescription,
             DateTime dateOfPublish, int userId, int mediaManagerId, int articleStatusId, int articleStateId,
-            string commentContent, int articleCommentId);
+            string commentContent, int articleCommentId, string articleType);
 
         [XmlSerializerFormat]
         [OperationContract]
-        void DeleteArticle(int artId);
+        void DeleteArticle(int artId, string articleType);
 
-        [XmlSerializerFormat]
+     
         [OperationContract]
-        void SubmitUpdatedArticle(int artId, string articleName, string articleDescription,
-            DateTime dateOfPublish, int userId,
-            int mediaManagerId, int articleStatusId, int articleStateId, int articleCommentId);
+        Article get(int artID);
+        
     }
 }
